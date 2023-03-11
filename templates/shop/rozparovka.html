@@ -1,0 +1,45 @@
+{% extends 'main.html' %}
+{% load static %}
+{% load custom_tags %}
+
+    {% block title %}
+        <title>Car+ - інтернет магазин б/в та нових автошин.</title>
+    {% endblock title %}
+
+    {% block description %}
+        <meta name="description" content="">
+    {% endblock description %}
+    
+    {% block content %}
+
+        <div class="container">
+            <div class="row">
+                <div class="col-12 by">
+                    <div class="liner"><h1>Розпаровка б/в </h1></div>
+                </div>
+            </div>
+        </div>    
+
+        <div class="container" id="shyny_bu">
+            <div class="row">
+                {% for r in radius %}
+                    <div class="col-12">
+                        <div class="h2-underline">
+                            <h2>{{ r }}</h2>
+                        </div><br>
+                        <div class="row border-bottom border-secondary">
+                            {% for cat in category %}
+                                {% if r in cat.name %}
+                                    <div class="col-xl-2 col-lg-2 col-md-3 col-sm-3 col-6 mb-3 link-size">
+                                        <a href="shyny-bu-rozparovka{{ cat.get_absolute_url }}">{{ cat.name }}</a>
+                                        <span class="badge badge-primary badge-pill">{{ category_dict_count|get_item:cat.name }}</span>
+                                    </div> 
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    {% endblock content %}

@@ -1,0 +1,117 @@
+{% extends 'main.html' %}
+{% load static %} 
+
+    {% block title %}
+        <title>{{ brand.name }} - Шини б/у в шинному центрі Car+ </title>
+    {% endblock title %}
+
+    {% block description %}
+        <meta name="description" content="{{ brand.description }}">
+    {% endblock description %}
+    
+    {% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="liner"><h1>Шини б/у - {{ brand.name }}<span class="next">&#8250;</span></h1></div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                {% if brand.image_icon %}
+                    <img src="{{ brand.image_icon.url }}" style="width:100%;max-width: 250px;">
+                {% endif %}
+                {{ brand.description|safe }}
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="liner"><h1>Модельний ряд - {{ brand.name }}<span class="next">&#8250;</span></h1></div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            {% for model in brand_models %}
+            <div class="col-xl-2 col-lg-2 col-md-4 col-sm-6 col-12 p-2 text-center m-2" style="font-size:18px;text-decoration: underline dotted;">
+                <a href="{{ model.get_absolute_url }}">{{ model.name }}</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col" style="overflow-x: scroll;">
+                <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">У наявності</th>
+                        <th scope="col">Модель</th>
+                        <th scope="col">Розмір</th>
+                        <th scope="col">Сезон</th>
+                        <th scope="col">На складі</th>
+                        <th scope="col">Вартість</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for tire in page_obj %}
+                        <tr>
+                            <th scope="row">02215</th>
+                            {% if tire.available %}
+                                <td class="text-success">У наявності</td>
+                            {% else %}
+                                <td class="text-secondary">Немає</td>
+                            {% endif %}
+                            <td><a href="{{ tire.get_absolute_url }}">{{ tire.model }}</a></td>
+                            <td><a href="{{ tire.category.get_absolute_url }}">{{ tire.category }}</a></td>
+                            <td>{{ tire.model.season }}</td>
+                            {% if tire.available %}
+                                <td>{{ tire.in_stock }}</td>
+                                <td>{{ tire.price }}</td>
+                            {% else %}
+                                <td>-</td>
+                                <td>-</td>
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                  </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                
+                                <a href="?page={{ page_obj.previous_page_number }}" class="page-link">&laquo; </a>
+                            </li>
+                        {% endif %}
+
+                        {% for page_number in page_obj.paginator.page_range %}
+                            <li class="page-item {% if page_number == page_obj.number %}active{% endif %}">
+                                <a class="page-link" href="?page={{ page_number }}">
+                                    {{ page_number }}
+                                </a>
+                            </li>
+                        {% endfor %}
+
+                        {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a href="?page={{ page_obj.next_page_number }}" class="page-link">&raquo;</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                
+            </div>
+        </div>
+    </div>
+
+    {% endblock content %}

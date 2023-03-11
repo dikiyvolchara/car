@@ -1,0 +1,186 @@
+{% extends 'main.html' %}
+{% load static %}
+{% load custom_tags %}
+
+{% block title %}
+
+{% endblock title %}
+
+{% block description %}
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+{% endblock description %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+      <div class="col-12 text-center border-bottom">
+        <h1>Особистий кабінет</h1>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-3">
+        <div class="row">
+          <div class="col-4"><span class="material-symbols-outlined" style="font-size: 80px;border: 2px dotted grey;border-radius: 50%;float: left;">
+            person
+            </span></div>
+          <div class="col-8 mt-2"><h3 style="text-transform: uppercase;">{{ user.first_name }} {{ user.last_name}}</h3>
+            {{ user.username }}</div>
+        </div><br> 
+        <table class="table table-striped">
+          <tbody>
+            <tr>
+              <td>
+                <a href="{% url 'my-account' user.id %}">Мої замовлення</a>
+              </td>
+            </tr>
+            <tr>
+              <td>Мої Бонуси</td>
+            </tr>
+            <tr>
+              <td><a href='{% url "user_inform" %}'>Мій профіль</a></td>
+            </tr>
+            <tr>
+              <td>Мій менеджер</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-9">
+        <h2>Мої дані: </h2>
+        <div class="row">
+          <div class="col-12">
+            <a href="{% url 'password_change' %}">Змінити пароль</a>
+          </div>
+        </div>
+          <div class="row">
+            <div class="col-12">
+
+              <table class="table table-striped">
+                <tbody>
+                  <tr>
+                    <td>
+                      Ім'я:
+                    </td>
+                    <td>
+                      {{ user.first_name }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      Фамілія:
+                    </td>
+                    <td>
+                      {{ user.last_name }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      E-mail:
+                    </td>
+                    <td>
+                      {{ user.email }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      Мобільний телефон
+                    </td>
+                    <td>
+                      {{ user.username }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">
+                      <a href="#">Редагувати профіль</a></td>
+                  </tr>
+                </tbody>
+              </table>
+
+              {% if user.user_profile %}
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col" colspan="2">Додаткова інформація</th>                  
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        Місто:
+                      </td>
+                      <td>
+                        {{ user.user_profile.city }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Доставка:
+                      </td>
+                      <td>
+                        {{ user.user_profile.delivery }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Дата народження:
+                      </td>
+                      <td>
+                        {{ user.user_profile.birthday }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <a href="{% url 'update_inform' user.user_profile.id %}">Редагувати профіль</a></td><td> --- </td>
+                    </tr>
+                  </tbody>
+                </table>
+              {% else %}
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col" colspan="2">Додаткова інформація</th>                  
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        Місто:
+                      </td>
+                      <td>
+                        ---
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Доставка:
+                      </td>
+                      <td>
+                        ---
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Дата народження:
+                      </td>
+                      <td>
+                        ---
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <a href="{% url 'profile_create' user.id %}">Заповнити профіль</a></td><td> --- </td>
+                    </tr>
+                  </tbody>
+                </table>
+              {% endif %}
+
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

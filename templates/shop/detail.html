@@ -1,0 +1,404 @@
+{% extends 'main.html' %}
+{% load static %}
+
+    {% block title %}
+        <title>Шини б\в {{ tire.category }} - {{ tire.model.brand }} {{ tire.model }}</title>
+    {% endblock title %}
+
+    {% block description %}
+        <meta content="Купити вживані шини б\у {{ tire.category }} - {{ tire.model.brand }} {{ tire.model }} в хорошому стані. Сезон: {{ tire.model.season }}. {% if tire.available %} В наявності: {{ tire.in_stock }} {% else %} Під замовдення {% endif %}. Шини привезені з Німеччини. 100% гарантія якості на монтаж та експлуатацію." name="description">
+    {% endblock description %}
+    
+    {% block content %}
+<div class="container-fluid bg-white pt-4 pb-4" style="position:sticky;top:0;z-index:1;">
+    <div class="container">
+        <div class="row">
+            <div class="col"> 
+                <a href="#description" class="mr-3 text-dark">Опис</a>
+                <a href="#character" class="mr-3 text-dark">Характеристики</a>
+                <a href="#all_size" class="mr-3 text-dark">Усі розміри</a>
+                <a href="#" class="m-2 text-dark">Відгуки</a>
+                {% if user.is_superuser %}
+                    <a href="/pdf/{{ tire.id }}"><i class="fa fa-print"></i></a>
+                    <a href="https://car-plus.kyiv.ua/admin/shop/tire/{{ tire.id }}/change/"><i class="fa fa-pencil"></i></a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1 style="font-size:36px;font-weight:600;color:#223263;">{{ tire.category }} - {{ tire.model.brand|upper }} - {{ tire.model }}</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-4 col-lg-4 col-md-4 col-12">
+                <img class="card-img" src="{% with tire.image_set.all|first as img %} {{ img.image.url }} {% endwith %}" alt="Шини б\у {{ tire.category }}" title="Шини б\у {{ tire.category }}">
+                <div class="card-img-overlay text-right card-icon">
+
+                    {% if tire.shipy %}
+                        <img src="{% static 'admin/img/icons/tire-ship.png' %}" alt="шиповані шини б\в" title=" шиповані шини бу">
+                    {% endif %}
+                    {% if tire.lipuchka %}
+                        <img src="{% static 'admin/img/icons/tire-ship.png' %}" alt="шини бу липучка" title="резина бу липучка">
+                    {% endif %}
+                    {% if tire.run_flat %}
+                        <img src="{% static 'admin/img/icons/mfs.png' %}" alt="шини бу - технологія Run Flat" title="Run Flat бу шини">
+                    {% endif %}
+                    {% if tire.conti_seal %}
+                        <img src="{% static 'admin/img/icons/contiseal.png' %}" alt="Технологія антипрокола ContiSeal" title="Conti Seal технологія антипроколу">
+                    {% endif %}
+                    {% if tire.low_prof %}
+                        <img src="{% static 'admin/img/icons/runflat.png' %}" alt="шини б\у низький профіль" title="Низький профіль">
+                    {% endif %}
+                    {% if tire.mad %}
+                        <img src="{% static 'admin/img/icons/mad.png' %}" alt="Грязевий малюнок протектора" title="Грязевий малюнок протектору">
+                    {% endif %}
+                    {% if tire.rain %}
+                        <img src="{% static 'admin/img/icons/rain.png' %}" alt="Дождьовий малюнок протектора" title="Дождьовий малюнок протектору">
+                    {% endif %}
+
+                    {% if tire.category.kind.name == 'Легкові' %}
+                        <img src="{% static 'admin/img/icons/sedan.png' %}" alt="Шини б\у {{ tire.category }} легкові" title="{{ tire.category }} легкові">
+                    {% elif tire.category.kind.name  == 'Джип' %}
+                        <img src="{% static 'admin/img/icons/crossover.png' %}" alt="{{ tire.category }} SUV, 4x4, Кросовер" title="">
+                    {% else %}
+                        <img src="{% static 'admin/img/icons/truck.png' %}" alt="{{ tire.category }} легкогрузові" title="Легкогрузові {{ tire.category }}">
+                    {% endif %}
+
+                    <br/>
+
+                    {% if tire.model.season.name == 'Літо' %}
+                        <img src="{% static 'admin/img/icons/sun.png' %}" alt="Сезон Літо" title="Літні шини">
+                    {% elif tire.model.season.name == 'Зима' %}
+                        <img src="{% static 'admin/img/icons/snowflake.png' %}" alt="Зимові шини" title="шини б\в зима">
+                    {% else %}
+                        <img src="{% static 'admin/img/icons/sun-winter.png' %}" alt="Шини б\в всесезон" title="Всесезонні шини">
+                    {% endif %}
+                </div>
+                <div class="container">
+                    <div class="row">
+                        {% for img in tire.image_set.all %}
+                        <div class="col mt-3" style="height:100px;">
+                            <img src="{{ img.image.url }}" class="mh-100" alt="{{ tire.category }} - {{ tire.model.brand }} {{ tire.model }} резина б\у" title="Шини бу {{ tire.category }} - {{ tire.model.brand }} {{ tire.model }}">
+                        </div>
+                        {% endfor%}
+                    </div>
+                </div>
+
+                <div class="container mt-4">
+                    <div class="row">
+                        <div class="col-7">
+                            Розмір: <strong><a href="{{ tire.category.get_absolute_url }}">{{ tire.category }}</a></strong>
+                        </div>
+
+                        <div class="col-5">
+                            Сезон: <strong>{{ tire.model.season }}</strong>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-8 col-lg-8 col-md-8 col-12">
+                <div class="container">
+                    <div class="row">
+                        <div class="col mt-4">
+                            {% if tire.available %}
+                            <p class="text-success">Є в наявності</p>
+                            {% else %}
+                            <p class="text-secondary">Немає в наявності</p>
+                            {% endif %}
+                        </div>
+                        <div class="col mt-4">
+                            {% if tire.available %}
+                                <p class="text-success">Самовивіз на сьогодні</p>
+                            {% else %}
+                                <p class="text-secondary">Під замовлення</p>
+                            {% endif %}
+                        </div>
+                        <div class="col mt-4">
+                            <p class="text-secondary">Код: {{ tire.articul }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="container border-bottom mt-2 pb-4">
+                    <div class="row">
+                        <div class="col">
+                            Країна: {{ tire.country }}
+                        </div>
+                        <div class="col">
+                            {% if tire.available %}
+                                Стан/Залишок: {{ tire.condition }}%
+                            {% else %}
+                                Стан/Залишок: ---
+                            {% endif %}
+                        </div>
+                        <div class="col d-none d-sm-block">
+
+                            <img src="{{ tire.model.brand.image_icon.url }}" class="w-75" alt="Шини бу {{ tire.model.brand }}" title="{{ tire.model.brand }} - {{ tire.model }} б\у">
+                        
+                        </div>
+                    </div>
+                </div>
+                <div class="container mt-4 pb-4" id="quick_order">
+                    <div class="row">
+                        <div class="col-8 detail-price font-weight-bold" style="font-size:32px;">
+                            {% if tire.available %}
+                                {{ tire.price }} грн
+                            {% else %}
+                                --- грн
+                            {% endif %}
+                        </div>
+                        <div class="col-2">
+                            
+                        </div>
+                        <div class="col-2">
+                            
+                        </div>
+                    </div>
+                </div>
+                {% if tire.available %}
+                    <div class="container border-bottom mt-2 pb-4">
+                        <div class="row">
+                            <div class="col detail-price">
+
+                                {% if messages %}
+                                    {% for message in messages %}
+                                    <div class="alert alert-success" role="alert">
+                                        {{ message }}
+                                    </div>
+                                    {% endfor %}
+                                {% else %}
+
+                                    <form method="POST" class="form-inline">
+                                        {% csrf_token %}
+                                        {% for field in form %}
+                                
+                                            <div class="fieldWrapper">
+                                                {% if user.is_authenticated %}
+                                                    {{ field.errors }}
+                                                    <input type="tel" name="phone" id="inputTel" class="form-control" required="" value="{{ user.username }}">
+                                                {% else %}
+                                                    {{ field.errors }}
+                                                    {{ field }}
+                                                {% endif %}
+                                
+                                                <button type="submit" class="btn btn-primary">Замовити в 1 клік</button>
+                                            </div>
+                                        
+                                        {% endfor %}
+                                    </form>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                    
+                <div class="container border-bottom mt-2 pb-4">
+                    <div class="row">
+                       
+                        <div class="col-12 font-weight-bold mb-4">
+                            Оплата:
+                        </div>
+                        <div class="col-5  mb-4 ml-4 font-italic">
+                            Оплата готівкою
+                        </div>
+                        <div class="col-6 mb-4 font-italic">
+                            Безготівковий розрахунок
+                        </div>
+                        <div class="col-5  mb-4 ml-4 font-italic">
+                            Перевод на карту
+                        </div>
+                        <div class="col-6 mb-4 font-italic">
+                            Через термінал "Приват банку"
+                        </div>
+                
+                    </div>
+                </div>
+
+                <div class="container mt-2 pb-4">
+                    <div class="row">
+                        <div class="col-12 font-weight-bold  mb-4">
+                            Доставка:
+                        </div>
+                        <div class="col-sm-5 col-7 mb-4 ml-4">
+                            Доставка у відділення Нової Пошти <br/>
+                            <strong>Від 50грн/шт</strong>
+                        </div>
+                        <div class="col-sm-4 col-1  mb-4" style="border-bottom: 1px dotted grey">
+                            
+                        </div>
+                        <div class="col-sm-2 col-2 font-weight-bold  mb-4">
+                            1-3 дня
+                        </div>
+
+                        <div class="col-sm-5 col-7  mb-4 ml-4">
+                            Доставка у відділення Delivery <br/>
+                            <strong>Від 50грн/шт</strong>
+                        </div>
+                        <div class="col-sm-4 col-1  mb-4" style="border-bottom: 1px dotted grey">
+                            
+                        </div>
+                        <div class="col-sm-2 col-2 font-weight-bold  mb-4">
+                            1-3 дня
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-4 mb-4 border rounded p-4 bg-white" id="description">
+        <div class="row">
+            <div class="col">
+                <h2 calss="m-2" style="font-size:18px;"><span class="font-weight-bold">Опис {{ tire.model.brand|upper }} - {{ tire.model }}</span> 
+                    {{ tire.category }} {{ tire.index_load }}{{tire.index_speed }}</h2><br/>
+                    {{ tire.model.description|safe }}
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-4 border rounded p-4  bg-white" id="character">
+        <div class="row">
+            <div class="col">
+                <h3 calss="m-2" style="font-size:18px;"><span class="font-weight-bold">Характеристики {{ tire.model.brand|upper }} - {{ tire.model }}</span> 
+                    {{ tire.category }} {{ tire.index_load }}{{tire.index_speed }}</h2><br/>
+                <table class="table">
+                    <thead>
+                        <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Назва властивості:</th>
+                        <th scope="col">Значення</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row"></th>
+                            <td>На складі:</td>
+                            {% if tire.available %}
+                                <td class="text-success">{{ tire.in_stock }}</td>
+                            {% else %}
+                                <td class="text-secondary">Відсутні</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <th scope="row"></th>
+                            <td>Стан:</td>
+                            <td>{{ tire.condition }}%</td>
+                        </tr>
+                        <tr>
+                            <th scope="row"></th>
+                            <td>Країна виробник:</td>
+                            <td>{{ tire.country }}</td>
+                        </tr>
+                        {% if user.is_superuser %}
+                        <tr>
+                            <th scope="row"></th>
+                            <td>Рік виготовлення:</td>
+                            <td>{{ tire.year }}</td>
+                        </tr>
+                        {% elif tire.year > 2015 %}
+                        <tr>
+                            <th scope="row"></th>
+                            <td>Рік виготовлення:</td>
+                            <td>{{ tire.year }}</td>
+                        </tr>
+                        {% endif %}
+                        <tr>
+                            <th scope="row"></th>
+                            <td>Сезон:</td>
+                            <td>{{ tire.model.season.name }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row"></th>
+                            <td>Бренд:</td>
+                            <td><a href="{{ tire.model.brand.get_absolute_url }}">{{ tire.model.brand }}</a></td>
+                            </tr>
+                        <tr>
+                            <th scope="row"></th>
+                            <td>Модель:</td>
+                            <td><a href="{{ tire.model.get_absolute_url }}">{{ tire.model }}</a></td>
+                        </tr>
+                            <tr>
+                            <th scope="row"></th>
+                            <td>Ширина:</td>
+                            <td>{{ tire.category.name|slice:':3' }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row"></th>
+                            <td>Висота:</td>
+                            <td>{{ tire.category.name|slice:'4:7' }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row"></th>
+                            <td>Радіус:</td>
+                            <td>{{ tire.category.name|slice:'7:' }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row"></th>
+                            <td>Індекс навантаження:</td>
+                            <td>{{ tire.index_load }} - {{ tire.index_load.name_two }} кг</td>
+                        </tr>
+                        <tr>
+                            <th scope="row"></th>
+                            <td>Індекс швидкості:</td>
+                            <td>{{ tire.index_speed }} - {{ tire.index_speed.name_two }} км/г</td>
+                        </tr>
+                        <tr>
+                            <th scope="row"></th>
+                            <td>Тип Т/З:</td>
+                            <td>{{ tire.category.kind.name }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-4 mb-4 border rounded p-4 bg-white" id="all_size">
+        <div class="row">
+            <div class="col" style="overflow-x:scroll;">
+                <h3 calss="m-2" style="font-size:18px;"><span class="font-weight-bold">Всі шини б/у в розмірі - </span> 
+                    {{ tire.category }} {{ tire.category.kind.name }}</h2><br/>
+                <table class="table">
+                    <thead>
+                        <tr>
+                        <th scope="col" class="d-none d-md-table-cell d-lg-table-cell d-xl-table-cell">#</th>
+                        <th scope="col">У наявності</th>
+                        <th scope="col">Бренд</th>
+                        <th scope="col">Модель</th>
+                        <th scope="col" class="d-none d-lg-table-cell d-xl-table-cell">Тип Т/З</th>
+                        <th scope="col" class="d-none d-lg-table-cell d-xl-table-cell">Розмір</th>
+                        <th scope="col" class="d-none d-lg-table-cell d-xl-table-cell">Індекси</th>
+                        <th scope="col">Вартість</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for tire in same_tires %}
+                            <tr>
+                            <th scope="row" class="d-none d-md-table-cell d-lg-table-cell d-xl-table-cell">02215</th>
+                            {% if tire.available %}
+                                <td class="text-success">У наявності </td>
+                            {% else %}
+                                <td class="text-secondary">Не має </td>
+                            {% endif %}
+                            <td><a href="{{ tire.get_absolute_url }}">{{ tire.model.brand }}</a></td>
+                            <td>{{ tire.model }}</td>
+                            <td class="d-none d-lg-table-cell d-xl-table-cell">{{ tire.category.kind.name }}</td>
+                            <td class="d-none d-lg-table-cell d-xl-table-cell"><a href="{{ tire.category.get_absolute_url }}">{{ tire.category }}</a></td>
+                            <td class="d-none d-lg-table-cell d-xl-table-cell">{{ tire.index_load }}{{ tire.index_speed }}</td>
+                            <td>{{ tire.price }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+        
+    
+    {% endblock content %}

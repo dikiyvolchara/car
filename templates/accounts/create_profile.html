@@ -1,0 +1,21 @@
+{% extends 'main.html' %}
+{% load static %}
+{% load custom_tags %}
+
+{% block title %}
+
+{% endblock title %}
+
+{% block description %}
+    <meta name="robots" content="noindex, nofollow" />
+{% endblock description %}
+
+{% block content %}
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Додати інформацію</button>
+</form>
+
+{% endblock content %}

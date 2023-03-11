@@ -1,0 +1,289 @@
+{% extends 'main.html' %}
+{% load static %}
+{% load custom_tags %}
+
+    {% block title %}
+        <title>Car+ - інтернет магазин б/в та нових автошин.</title>
+    {% endblock title %}
+
+    {% block description %}
+        <meta name="description" content="">
+    {% endblock description %}
+
+    {% block scheme_org %}
+        
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "LocalBusiness",
+            "name": "Шинний центр CAR+",
+            "image": "https://car-plus.kyiv.ua/static/admin/img/logo.png",
+            "telephone": "0 800 33 28 48",
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "с.Погреби, вул. Єдності, 94",
+                "addressLocality": "Погреби",
+                "addressRegion": "Kyiv",
+                "postalCode": "07416",
+                "addressCountry": "UA"
+            },
+            "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": 50.552953,
+                "longitude": 30.626193
+            },
+            "url": "https://car-plus.kyiv.ua/",
+            "servesCuisine": "Ukrain",
+            "priceRange": "UAH",
+            "openingHoursSpecification": [
+                {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": [
+                    "Monday",
+                    "Tuesday",
+                    "Wednesday",
+                    "Thursday",
+                    "Friday",
+                    "Saturday"
+                ],
+                "opens": "09:00",
+                "closes": "18:00"
+                },
+                {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": "Sunday",
+                "opens": "10:00",
+                "closes": "16:00"
+                }
+            ]
+        }
+    </script>
+
+
+    {% endblock scheme_org%}
+    
+    {% block content %}
+    
+        <div class="mb-4 carousel">
+            <!-- <div class="carousel__slide"><img data-lazy-src="/media/car-plus-baner/baner-slide/generator.jpg" style="width:100%;"/></div> -->
+            <div class="carousel__slide">
+                <a href="/shynomontash-pogreby">
+                    <img data-lazy-src="/media/car-plus-baner/baner-slide/shinomontash.jpg"  style="width:100%;"/>
+                </a>
+            </div>
+            <div class="carousel__slide"><img data-lazy-src="/media/car-plus-baner/baner-slide/save-tire-10.jpg"  style="width:100%;"/></div>
+            <div class="carousel__slide"><img data-lazy-src="/media/car-plus-baner/baner-slide/np-11.jpg" style="width:100%;"/></div>
+        </div>
+
+        <div class="container mt-4 mb-4 pt-3" style="font-family:'Rubik';font-weight:600;font-size:18px;">
+            <div class="row text-center section">
+                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-6 border-right section_item">
+                    <div class="row align-items-center">
+                        <div class="col-md-6 col-12"><img src="{% static 'admin/img/icons/secure-shield.png' %}"></div>
+                        <div class="col-md-6 col-12">Гарантія на монтаж</div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-6 border-right section_item">
+                    <div class="row align-items-center">
+                        <div class="col-md-6 col-12"><img src="{% static 'admin/img/icons/cards.png' %}"></div>
+                        <div class="col-md-6 col-12">Програма лояльності</div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-6 border-right section_item">
+                    <div class="row align-items-center">
+                        <div class="col-md-6 col-12"><img src="{% static 'admin/img/icons/shipped.png' %}"></div>
+                        <div class="col-md-6 col-12">Доставка</div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-6 section_item">
+                    <div class="row align-items-center">
+                        <div class="col-md-6 col-12"><img src="{% static 'admin/img/icons/bonus.png' %}"></div>
+                        <div class="col-md-6 col-12">% Знижки</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-12 by">
+                    <div class="liner"><h1>Купити шини б/в </h1><span class="next">&#8250;</span></div>
+                </div>
+            </div>
+        </div>    
+
+        <div class="container" id="shyny_bu">
+            <div class="row">
+                {% for r in radius %}
+                    <div class="col-12">
+                        <div class="h2-underline">
+                            <h2>{{ r }}</h2>
+                        </div><br>
+                        <div class="row border-bottom border-secondary">
+                            {% for cat in category %}
+                                {% if r in cat.name %}
+                                    <div class="col-xl-2 col-lg-2 col-md-3 col-sm-3 col-6 mb-3 link-size">
+                                        <a href="{{ cat.get_absolute_url }}">{{ cat.name }}</a>
+                                        <span class="badge badge-primary badge-pill">{{ category_dict_count|get_item:cat.name }}</span>
+                                    </div> 
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-12 by">
+                    <div class="liner"><h3>Популярні товари (шини б/в) </h3><span class="next">&#8250;</span></div>
+                </div>
+            </div>
+        </div> 
+
+        <div class="container">
+            <div class="row">
+
+                {% for tire in popular_tires %}
+
+
+                    {% if forloop.counter == 2 %}
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-4 d-flex">
+                            
+                            <img src="/media/weather-img/{{ weather.background|lower }}-img.png" style="object-fit:cover;width:100%;">
+                            
+                            <div class="card-img-overlay" style="text-shadow:2px 2px 3px black;color:white;">
+                                <span style="font-size:22px;font-weight:600;">Прогноз погоди на сьогодні:</span><br/>
+                                <span>Місто: Київ <img src="https://openweathermap.org/img/w/{{ weather.icon }}.png" alt="Image"></span>
+                                <span>Температура: {{ weather.temperature }}C°</span><br/>
+                                <span>Відчувається як: {{ weather.feels_like }}C°</span><br/>
+                                <hr/>
+                                <span>Мінімальна темп.: {{ weather.min }}C°</span><br/>
+                                <span>Максимальна темп.: {{ weather.max }}C°</span><br/>
+                                <hr/>
+                                <span>Доп.Інфо: {{ weather.description }}</span>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if forloop.counter == 6 %}
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-4 d-flex">
+                            <img src="/media/ads-img/frame-4.jpg" style="object-fit:contain;width:100%;">
+                        </div>
+                    {% endif %}
+
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-4">
+                    <div class="card">
+                        <div class="picture-resize">
+                            <img class="card-img card-img2" src="{% with tire.image_set.all|first as img %} {{ img.image.url }} {% endwith %}" alt="Шини б/в {{ tire.category }}">
+                        </div>
+                        <div class="card-img-overlay">
+                            {% if tire.recommend %}
+                                <h5 class="card-recomend">Рекомендуємо</h5>
+                            {% endif %}
+                            <h5 class="card-delivery">Самовивіз на сьогодні</h5>
+                        </div>
+                        <div class="col text-right card-icon mt-2 mb-3">
+                            {% if tire.shipy %}
+                                <img src="{% static 'admin/img/icons/tire-ship.png' %}" alt="Під шип" title="Під шип">
+                            {% endif %}
+                            {% if tire.lipuchka %}
+                                <img src="{% static 'admin/img/icons/tire-ship.png' %}" alt="Липучка" title="Липучка">
+                            {% endif %}
+                            {% if tire.run_flat %}
+                                <img src="{% static 'admin/img/icons/mfs.png' %}" alt="RunFlat" title="RunFlat">
+                            {% endif %}
+                            {% if tire.conti_seal %}
+                                <img src="{% static 'admin/img/icons/contiseal.png' %}" alt="Автоліквідація проколів" title="Автоліквідація проколів">
+                            {% endif %}
+                            {% if tire.low_prof %}
+                                <img src="{% static 'admin/img/icons/runflat.png' %}" alt="Низький профіль" title="Низький профіль">
+                            {% endif %}
+                            {% if tire.mad %}
+                                <img src="{% static 'admin/img/icons/mad.png' %}" alt="Грязьові" title="Грязьові">
+                            {% endif %}
+                            {% if tire.rain %}
+                                <img src="{% static 'admin/img/icons/rain.png' %}" alt="Дождьові" title="Дождьові">
+                            {% endif %}
+    
+                            {% if tire.category.kind.name == 'Легкові' %}
+                                <img src="{% static 'admin/img/icons/sedan.png' %}" alt="Легкові" title="Легкові">
+                            {% elif tire.category.kind.name  == 'Джип' %}
+                                <img src="{% static 'admin/img/icons/crossover.png' %}" alt="Джип" title="Джип">
+                            {% else %}
+                                <img src="{% static 'admin/img/icons/truck.png' %}" alt="Легкогрузові" title="Легкогрузові">
+                            {% endif %}
+    
+                            {% if tire.model.season.name == 'Літо' %}
+                                <img src="{% static 'admin/img/icons/sun.png' %}" alt="Літо" title="Літо">
+                            {% elif tire.model.season.name == 'Зима' %}
+                                <img src="{% static 'admin/img/icons/snowflake.png' %}" alt="Зима" title="Зима">
+                            {% else %}
+                                <img src="{% static 'admin/img/icons/sun-winter.png' %}" alt="Всесезон" title="Всесезон">
+                            {% endif %}
+                        </div>
+                        <div class="col brand-title bg-link">
+                            <a href="{{ tire.get_absolute_url }}">{{ tire.model.brand.name|upper }}<br>{{ tire.model.name|truncatechars:20 }}</a>
+                        </div>
+                        <div class="col text-success">
+                            У наявності: {{ tire.in_stock }} шт
+                        </div>
+                        <div class="col card-address">
+                            вул. Єдності, 94 (Троєщина-Погреби)<br>
+                            Самовивіз на сьогодні
+                        </div>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-8">
+                                    <span class="size bg-link">
+                                        <a href="{{ tire.get_absolute_url }}">{{ tire.category }}</a> 
+                                    </span>
+                                    <span class="price bg-link">&#8372;{{ tire.price|floatformat:0}}</span>
+                                </div>
+                                <div class="col-4">
+                                    <div class="trash-box">
+                                        <a href="{{ tire.get_absolute_url}}#quick_order" rel=”nofollow”>
+                                            <img src="{% static 'admin/img/icons/shopping-cart.png' %}">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    {{ description_index.description|safe}}
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-12 by">
+                    <div class="liner"><h3>Популярні бренди шин б/в</h3><span class="next">&#8250;</span></div>
+                </div>
+            </div>
+        </div> 
+
+        <div class="container">
+            <div class="row d-flex justify-content-center">
+                {% for brand in brands %}
+                <div class="col-xl-2 col-lg-3 col-md-4 col-6 mt-2 mb-2">
+                    <a href="{{ brand.get_absolute_url }}">
+                        {% if brand.image_icon %}
+                            <img src="{{ brand.image_icon.url }}" alt="Шини б/в {{ brand.name }}" title="б/в шини {{ brand.name }}" style="width:100%;margin: 5px;">
+                        {% endif %}
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    {% endblock content %}

@@ -1,0 +1,120 @@
+{% extends 'main.html' %}
+{% load static %}
+
+    {% block title %}
+        <title>Car+ - інтернет магазин б\у та нових автошин.</title>
+    {% endblock title %}
+
+    {% block description %}
+        <meta name="description" content="">
+    {% endblock description %}
+    
+    {% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12 by">
+                <div class="liner"><h1>Шини б/у {{ category.name }}</h1><span class="next">&#8250;</span>
+                    {% if user.is_superuser %}
+                        <a href="/pdf/category/{{ category.slug }}"><i class="fa fa-print"></i></a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            {% for tire in tires %}
+
+                {% if forloop.counter == 4 %}
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-4 d-flex">
+                        <img src="/media/ads-img/frame-4.jpg" style="object-fit:contain;width:100%;">
+                    </div>
+                {% endif %}
+
+            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-4">
+                <div class="card d-flex">
+                    <img class="card-img" src="{% with tire.image_set.all|first as img %} {{ img.image.url }} {% endwith %}" alt="Шини б\у {{ tire.category }}">
+                    <div class="card-img-overlay">
+                        {% if tire.recommend %}
+                            <h5 class="card-recomend">Рекомендуємо</h5>
+                        {% endif %}
+                        <h5 class="card-delivery">Самовивіз на сьогодні</h5>
+                    </div>
+                    <div class="col text-right card-icon mt-2 mb-3">
+                        {% if tire.shipy %}
+                            <img src="{% static 'admin/img/icons/tire-ship.png' %}" alt="Під шип" title="Під шип">
+                        {% endif %}
+                        {% if tire.lipuchka %}
+                            <img src="{% static 'admin/img/icons/tire-ship.png' %}" alt="Липучка" title="Липучка">
+                        {% endif %}
+                        {% if tire.run_flat %}
+                            <img src="{% static 'admin/img/icons/mfs.png' %}" alt="RunFlat" title="RunFlat">
+                        {% endif %}
+                        {% if tire.conti_seal %}
+                            <img src="{% static 'admin/img/icons/contiseal.png' %}" alt="Автоліквідація проколів" title="Автоліквідація проколів">
+                        {% endif %}
+                        {% if tire.low_prof %}
+                            <img src="{% static 'admin/img/icons/runflat.png' %}" alt="Низький профіль" title="Низький профіль">
+                        {% endif %}
+                        {% if tire.mad %}
+                            <img src="{% static 'admin/img/icons/mad.png' %}" alt="Грязьові" title="Грязьові">
+                        {% endif %}
+                        {% if tire.rain %}
+                            <img src="{% static 'admin/img/icons/rain.png' %}" alt="Дождьові" title="Дождьові">
+                        {% endif %}
+
+                        {% if tire.category.kind.name == 'Легкові' %}
+                            <img src="{% static 'admin/img/icons/sedan.png' %}" alt="Легкові" title="Легкові">
+                        {% elif tire.category.kind.name  == 'Джип' %}
+                            <img src="{% static 'admin/img/icons/crossover.png' %}" alt="Джип" title="Джип">
+                        {% else %}
+                            <img src="{% static 'admin/img/icons/truck.png' %}" alt="Легкогрузові" title="Легкогрузові">
+                        {% endif %}
+
+                        {% if tire.model.season.name == 'Літо' %}
+                            <img src="{% static 'admin/img/icons/sun.png' %}" alt="Літо" title="Літо">
+                        {% elif tire.model.season.name == 'Зима' %}
+                            <img src="{% static 'admin/img/icons/snowflake.png' %}" alt="Зима" title="Зима">
+                        {% else %}
+                            <img src="{% static 'admin/img/icons/sun-winter.png' %}" alt="Всесезон" title="Всесезон">
+                        {% endif %}
+                    </div>
+                    <div class="col brand-title">
+                        <a href="{{ tire.get_absolute_url }}">{{ tire.model.brand.name|upper }}<br>{{ tire.model.name|truncatechars:20 }}</a> 
+                        {% if user.is_superuser %}
+                            - <a href="https://car-plus.kyiv.ua/admin/shop/tire/{{ tire.id }}/change/"><i class="fa fa-pencil"></i></a>
+                            {% if tire.choice %} {{ tire.choice }} {% endif %}
+                        {% endif %}
+                    </div>
+                    <div class="col text-success">
+                        У наявності: {{ tire.in_stock }} шт
+                    </div>
+                    <div class="col card-address">
+                        вул. Єдності, 94 (Троєщина-Погреби)<br>
+                        Самовивіз на сьогодні
+                    </div>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-8">
+                                <span class="size bg-link">
+                                    <a href="{{ tire.get_absolute_url }}">{{ tire.category }}</a> 
+                                </span>
+                                <span class="price bg-link">&#8372;{{ tire.price|floatformat:0}}</span>
+                            </div>
+                            <div class="col-4">
+                                <div class="trash-box">
+                                    <a href="{{ tire.get_absolute_url}}#quick_order" rel=”nofollow”>
+                                        <img src="{% static 'admin/img/icons/shopping-cart.png' %}">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endblock content %}

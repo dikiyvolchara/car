@@ -1,0 +1,261 @@
+{% extends 'main.html' %}
+{% load static %}
+
+    {% block title %}
+        <!--Title block -->
+        <title>
+            {% if category.seo_title %}
+                {{ category.seo_title }}
+            {% else %}
+                Шини бу {{ category.name }} - Купити літні та зимні шини б\в у Києві. Найбільший вибір бу шин у розмірі {{ category.name }}
+            {% endif %}
+        </title>
+    {% endblock title %}
+
+    {% block description %}
+        <!-- Description block-->
+        {% if category.seo_description %}
+            <meta content="{{ category.seo_description }}" name="description" >
+        {% else %}
+            <meta content="Шини б\в {{ category.name }} - літні, зимові та всесезонні. Великий вибір шин бу {{ category.name }}, найкраща якість, та 100% гарантія на шини {{ category.name }}" name="description" >
+        {% endif %}
+
+        <!-- Keywords block-->
+        {% if category.seo_keywords %}
+            <meta content="{{ category.seo_keywords }}" name="keywords" >
+        {% else %}
+            <meta content="Шини б\у {{ category.name }}, Купити шини бу {{ category.name }}, Літні шини бу {{ category.name }}, зимові шини бу {{ category.name }}" name="keywords">
+        {% endif %}
+    {% endblock description %}
+    
+    {% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12 by">
+                <div class="liner"><h1>Шини б/у {{ category.name }}</h1><span class="next">&#8250;</span>
+                    {% if user.is_superuser %}
+                        <a href="/pdf/category/{{ category.slug }}"><i class="fa fa-print"></i></a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            {% for tire in tires_obj %}
+
+                {% if forloop.counter == 4 %}
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-4 d-flex">
+                        <img src="/media/ads-img/frame-4.jpg" style="object-fit:contain;width:100%;">
+                    </div>
+                {% endif %}
+
+                {% if tire.available %}
+
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-4">
+                        <div class="card d-flex">
+                            <div class="picture-resize">
+                                <img class="card-img card-img2" src="{% with tire.image_set.all|first as img %} {{ img.image.url }} {% endwith %}" alt="Шини б\у {{ tire.category }}">
+                            </div>
+                            <div class="card-img-overlay">
+                                {% if tire.recommend %}
+                                    <h5 class="card-recomend">Рекомендуємо</h5>
+                                {% endif %}
+                                <h5 class="card-delivery">Самовивіз на сьогодні</h5>
+                            </div>
+                            <div class="col text-right card-icon mt-2 mb-3">
+                                {% if tire.shipy %}
+                                    <img src="{% static 'admin/img/icons/tire-ship.png' %}" alt="Під шип" title="Під шип">
+                                {% endif %}
+                                {% if tire.lipuchka %}
+                                    <img src="{% static 'admin/img/icons/tire-ship.png' %}" alt="Липучка" title="Липучка">
+                                {% endif %}
+                                {% if tire.run_flat %}
+                                    <img src="{% static 'admin/img/icons/mfs.png' %}" alt="RunFlat" title="RunFlat">
+                                {% endif %}
+                                {% if tire.conti_seal %}
+                                    <img src="{% static 'admin/img/icons/contiseal.png' %}" alt="Автоліквідація проколів" title="Автоліквідація проколів">
+                                {% endif %}
+                                {% if tire.low_prof %}
+                                    <img src="{% static 'admin/img/icons/runflat.png' %}" alt="Низький профіль" title="Низький профіль">
+                                {% endif %}
+                                {% if tire.mad %}
+                                    <img src="{% static 'admin/img/icons/mad.png' %}" alt="Грязьові" title="Грязьові">
+                                {% endif %}
+                                {% if tire.rain %}
+                                    <img src="{% static 'admin/img/icons/rain.png' %}" alt="Дождьові" title="Дождьові">
+                                {% endif %}
+
+                                {% if tire.category.kind.name == 'Легкові' %}
+                                    <img src="{% static 'admin/img/icons/sedan.png' %}" alt="Легкові" title="Легкові">
+                                {% elif tire.category.kind.name  == 'Джип' %}
+                                    <img src="{% static 'admin/img/icons/crossover.png' %}" alt="Джип" title="Джип">
+                                {% else %}
+                                    <img src="{% static 'admin/img/icons/truck.png' %}" alt="Легкогрузові" title="Легкогрузові">
+                                {% endif %}
+
+                                {% if tire.model.season.name == 'Літо' %}
+                                    <img src="{% static 'admin/img/icons/sun.png' %}" alt="Літо" title="Літо">
+                                {% elif tire.model.season.name == 'Зима' %}
+                                    <img src="{% static 'admin/img/icons/snowflake.png' %}" alt="Зима" title="Зима">
+                                {% else %}
+                                    <img src="{% static 'admin/img/icons/sun-winter.png' %}" alt="Всесезон" title="Всесезон">
+                                {% endif %}
+                            </div>
+                            <div class="col brand-title">
+                                <a href="{{ tire.get_absolute_url }}">{{ tire.model.brand.name|upper }}<br>{{ tire.model.name|truncatechars:20 }}</a> 
+                                {% if user.is_superuser %}
+                                    - <a href="https://car-plus.kyiv.ua/admin/shop/tire/{{ tire.id }}/change/"><i class="fa fa-pencil"></i></a>
+                                    {% if tire.choice %} {{ tire.choice }} {% endif %}
+                                {% endif %}
+                            </div>
+                            <div class="col text-success">
+                                    У наявності: {{ tire.in_stock }} шт
+                            </div>
+                            <div class="col card-address">
+                                вул. Єдності, 94 (Троєщина-Погреби)<br>
+                                Самовивіз на сьогодні
+                            </div>
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <span class="size bg-link">
+                                            <a href="{{ tire.get_absolute_url }}">{{ tire.category }}</a> 
+                                        </span>
+                                        <span class="price bg-link">&#8372;{{ tire.price|floatformat:0}}</span>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <div class="trash-box">
+                                            <a href="{{ tire.get_absolute_url}}#quick_order" rel=”nofollow”>
+                                                <img src="{% static 'admin/img/icons/shopping-cart.png' %}">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-4" style="filter:grayscale(90%);">
+
+                        <div class="card d-flex">
+                            <div class="picture-resize">
+                                <img class="card-img card-img2" src="{% with tire.image_set.all|first as img %} {{ img.image.url }} {% endwith %}" alt="Шини б\у {{ tire.category }}">
+                            </div>
+                            <div class="card-img-overlay">
+                                {% if tire.recommend %}
+                                    <h5 class="card-recomend">Рекомендуємо</h5>
+                                {% endif %}
+                                <h5 class="card-delivery"><s>Самовивіз на сьогодні</s></h5>
+                            </div>
+                            <div class="col text-right card-icon mt-2 mb-3">
+                                {% if tire.shipy %}
+                                    <img src="{% static 'admin/img/icons/tire-ship.png' %}" alt="Під шип" title="Під шип">
+                                {% endif %}
+                                {% if tire.lipuchka %}
+                                    <img src="{% static 'admin/img/icons/tire-ship.png' %}" alt="Липучка" title="Липучка">
+                                {% endif %}
+                                {% if tire.run_flat %}
+                                    <img src="{% static 'admin/img/icons/mfs.png' %}" alt="RunFlat" title="RunFlat">
+                                {% endif %}
+                                {% if tire.conti_seal %}
+                                    <img src="{% static 'admin/img/icons/contiseal.png' %}" alt="Автоліквідація проколів" title="Автоліквідація проколів">
+                                {% endif %}
+                                {% if tire.low_prof %}
+                                    <img src="{% static 'admin/img/icons/runflat.png' %}" alt="Низький профіль" title="Низький профіль">
+                                {% endif %}
+                                {% if tire.mad %}
+                                    <img src="{% static 'admin/img/icons/mad.png' %}" alt="Грязьові" title="Грязьові">
+                                {% endif %}
+                                {% if tire.rain %}
+                                    <img src="{% static 'admin/img/icons/rain.png' %}" alt="Дождьові" title="Дождьові">
+                                {% endif %}
+
+                                {% if tire.category.kind.name == 'Легкові' %}
+                                    <img src="{% static 'admin/img/icons/sedan.png' %}" alt="Легкові" title="Легкові">
+                                {% elif tire.category.kind.name  == 'Джип' %}
+                                    <img src="{% static 'admin/img/icons/crossover.png' %}" alt="Джип" title="Джип">
+                                {% else %}
+                                    <img src="{% static 'admin/img/icons/truck.png' %}" alt="Легкогрузові" title="Легкогрузові">
+                                {% endif %}
+
+                                {% if tire.model.season.name == 'Літо' %}
+                                    <img src="{% static 'admin/img/icons/sun.png' %}" alt="Літо" title="Літо">
+                                {% elif tire.model.season.name == 'Зима' %}
+                                    <img src="{% static 'admin/img/icons/snowflake.png' %}" alt="Зима" title="Зима">
+                                {% else %}
+                                    <img src="{% static 'admin/img/icons/sun-winter.png' %}" alt="Всесезон" title="Всесезон">
+                                {% endif %}
+                            </div>
+                            <div class="col brand-title">
+                                <a href="{{ tire.get_absolute_url }}">{{ tire.model.brand.name|upper }}<br>{{ tire.model.name|truncatechars:20 }}</a> 
+                                {% if user.is_superuser %}
+                                    - <a href="https://car-plus.kyiv.ua/admin/shop/tire/{{ tire.id }}/change/"><i class="fa fa-pencil"></i></a>
+                                    {% if tire.choice %} {{ tire.choice }} {% endif %}
+                                {% endif %}
+                            </div>
+                            <div class="col text-success">
+                                    Немає в наявності
+                            </div>
+                            <div class="col card-address">
+                                вул. Єдності, 94 (Троєщина-Погреби)<br>
+                                <s>Самовивіз на сьогодні</s>
+                            </div>
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <span class="size bg-link">
+                                            <a href="{{ tire.get_absolute_url }}">{{ tire.category }}</a> 
+                                        </span>
+                                        <span class="price bg-link">&#8372; --- </span>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <div class="trash-box">
+                                            <a href="#" rel=”nofollow”>
+                                                <img src="{% static 'admin/img/icons/shopping-cart.png' %}">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="row">
+            <div class="col">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+
+                        {% if tires_obj.has_previous %}
+                            <li class="page-item">
+                                
+                                <a href="?page={{ tires_obj.previous_page_number }}" class="page-link">&laquo; </a>
+                            </li>
+                        {% endif %}
+
+                        {% for page_number in tires_obj.paginator.page_range %}
+                            <li class="page-item {% if page_number == tires_obj.number %}active{% endif %}">
+                                <a class="page-link" href="?page={{ page_number }}">
+                                    {{ page_number }}
+                                </a>
+                            </li>
+                        {% endfor %}
+
+                        {% if tires_obj.has_next %}
+                        <li class="page-item">
+                            <a href="?page={{ tires_obj.next_page_number }}" class="page-link">&raquo;</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                
+            </div>
+        </div>
+    </div>
+    {% endblock content %}

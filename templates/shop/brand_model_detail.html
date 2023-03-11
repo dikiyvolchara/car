@@ -1,0 +1,69 @@
+{% extends 'main.html' %}
+{% load static %}
+
+    {% block title %}
+        <title>{{ brand_model.name }} - {{ brand_model.brand }} -Шини б/у в шинному центрі Car+ </title>
+    {% endblock title %}
+
+    {% block description %}
+        <meta name="description" content="{{ brand_model.description }}">
+    {% endblock description %}
+    
+    {% block content %}
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="liner"><h1>Шини б/у - {{ brand_model.name }} - {{ brand_model.brand }}<span class="next">&#8250;</span></h1></div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <img src="{{ brand.image_icon.url }}" style="width:100%;">
+                    {{ brand_model.description|safe }}
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col" style="overflow-x:scroll;">
+                    <table class="table table-hover">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">У наявності</th>
+                            <th scope="col">Модель</th>
+                            <th scope="col">Розмір</th>
+                            <th scope="col">Сезон</th>
+                            <th scope="col">На складі</th>
+                            <th scope="col">Вартість</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            {% for tire in tires %}
+                            <tr>
+                                <th scope="row">02215</th>
+                                {% if tire.available %}
+                                    <td class="text-success">У наявності</td>
+                                {% else %}
+                                    <td class="text-secondary">Немає</td>
+                                {% endif %}
+                                <td><a href="{{ tire.get_absolute_url }}">{{ tire.model }}</a></td>
+                                <td><a href="{{ tire.get_absolute_url }}">{{ tire.category }}</a></td>
+                                <td>{{ tire.model.season }}</td>
+                                {% if tire.available %}
+                                    <td>{{ tire.in_stock }}</td>
+                                    <td>{{ tire.price }}</td>
+                                {% else %}
+                                    <td>-</td>
+                                    <td>-</td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                      </table>
+                </div>
+            </div>
+        </div>
+    {% endblock content %}

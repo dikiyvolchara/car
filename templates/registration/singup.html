@@ -1,0 +1,71 @@
+{% extends 'main.html' %}
+{% load static %}
+{% load custom_tags %}
+
+{% block title %}<title>Регістрація</title>{% endblock title %}
+
+{% block description %}
+    <meta name="robots" content="noindex, nofollow" />
+{% endblock description %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col justify-content-center">
+            <h1>Регістрація в особистий кабінет </h1>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col-6">
+            <form method="post">
+                {% csrf_token %}
+            
+                <div class="form-group col-12">
+                    <label for="id_username">{{ form.username.label_tag }}</label>
+                    {{ form.username }}
+                    <small id="emailHelp" class="form-text text-muted">{{ form.username.help_text }}</small>
+                    {{ form.username.errors }}
+                </div>
+
+                <div class="form-group col-12">
+                    <!-- <label for="id_firstname">{{ form.first_name.label_tag }}</label> -->
+                    {{ form.first_name }}
+                    <!-- <small id="emailHelp" class="form-text text-muted">{{ form.first_name.help_text }}</small> -->
+                    {{ form.first_name.errors }}
+                </div>
+
+                <div class="form-group col-12">
+                    <!-- <label for="id_lastname">{{ form.last_name.label_tag }}</label> -->
+                    {{ form.last_name }}
+                    <!-- <small id="emailHelp" class="form-text text-muted">{{ form.last_name.help_text }}</small> -->
+                    {{ form.last_name.errors }}
+                </div>
+
+                <div class="form-group col-12">
+                    <!-- <label for="exampleInputPassword1">{{ form.email.label_tag }}</label> -->
+                    {{ form.email }}
+                    <!-- <small id="emailHelp" class="form-text text-muted">{{ form.email.help_text }}</small> -->
+                    {{ form.email.errors }}
+                </div>
+            
+                <div class="form-group col-12">
+                    <!-- <label for="exampleInputPassword1">{{ form.password1.label_tag }}</label> -->
+                    {{ form.password1 }}
+                    <small id="emailHelp" class="form-text text-muted">{{ form.password1.help_text }}</small>
+                    {{ form.password1.errors }}
+                    
+                </div>
+                <div class="form-group col-12">
+                    <!-- <label for="exampleInputPassword1">{{ form.password2.label_tag }}</label> -->
+                    {{ form.password2 }}
+                    <!-- <small id="emailHelp" class="form-text text-muted">{{ form.password2.help_text }}</small> -->
+                    {{ form.password2.errors }}
+                </div>
+                <button type="submit" class="btn btn-primary">Sing In</button>
+            
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}
