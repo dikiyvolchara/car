@@ -13,18 +13,30 @@ class SingUpView(CreateView):
     success_url = reverse_lazy('login')
     template_name = 'registration/singup.html'
 
-# Create your views here.
-class MyAccountView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
-    model = User
-    template_name = 'accounts/account.html'
 
-    def test_func(self):
-        return self.get_object().id == self.request.user.pk or self.request.user.is_superuser
+@login_required
+def MyAccountView(request):
+    user = request.user
+
+    context = {
+        'user': user,
+    }
+
+    return render(request, 'accounts/account.html', context)
+
+
+# Create your views here.
+# class MyAccountView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+#     model = User
+#     template_name = 'accounts/account.html'
+
+#     def test_func(self):
+#         return self.get_object().id == self.request.user.pk or self.request.user.is_superuser
 
 class ProfileUserCreateView(CreateView):
     form_class = ProfileUserForm
 
-    success_url = reverse_lazy('my-account/{{ user.id }}/')
+    success_url = reverse_lazy('/')
     template_name = 'accounts/create_profile.html'
 
     def form_valid(self, form):
@@ -66,3 +78,25 @@ def ProfileUserInformView(request):
     }
 
     return render(request, 'accounts/accounts_inform.html', context)
+
+
+@login_required
+def ProfileUserDiscountView(request):
+    user = request.user
+
+    context = {
+        'user': user,
+    }
+
+    return render(request, 'accounts/account_discount.html', context)
+
+
+@login_required
+def ProfileUserManagerView(request):
+    user = request.user
+
+    context = {
+        'user': user,
+    }
+
+    return render(request, 'accounts/account_manager.html', context)

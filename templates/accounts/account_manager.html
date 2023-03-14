@@ -1,0 +1,66 @@
+{% extends 'main.html' %}
+{% load static %}
+{% load custom_tags %}
+
+{% block title %}
+
+{% endblock title %}
+
+{% block description %}
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+{% endblock description %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+      <div class="col-12 text-center border-bottom">
+        <h1>Особистий кабінет</h1>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-3">
+        <div class="row">
+          <div class="col-4"><span class="material-symbols-outlined" style="font-size: 80px;border: 2px dotted grey;border-radius: 50%;float: left;">
+            person
+            </span></div>
+          <div class="col-8 mt-2"><h3 style="text-transform: uppercase;">{{ user.first_name }} {{ user.last_name}}</h3>
+            {{ user.username }}</div>
+        </div><br> 
+        <table class="table table-striped">
+          <tbody>
+            <tr>
+              <td>
+                <a href="{% url 'my-account' %}">Мої замовлення</a>
+              </td>
+            </tr>
+            <tr>
+              <td><a href="{% url 'user_discount' %}">Мої Бонуси</a></td>
+            </tr>
+            <tr>
+              <td><a href='{% url "user_inform" %}'>Мій профіль</a></td>
+            </tr>
+            <tr>
+              <td><a href="{% url 'user_manager' %}">Мій менеджер</a></td>
+            </tr>
+            <tr>
+              <td><a href="{% url 'logout' %}">Вийти</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-9">
+        <h2>Мої Бонуси: </h2>
+        <div class="row">
+            <div class="col-12">
+                Ваш менеджер: {{ user.user_profile.user_manager }} 
+            </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+{% endblock content %}

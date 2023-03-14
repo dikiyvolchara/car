@@ -154,7 +154,7 @@ class TireAdmin(SimpleHistoryAdmin):
 class QuickOrderAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {
-            'fields': ('phone', ('status', 'manager'), ('client', ), 'complete', 'created', 'updated')
+            'fields': ('phone', ('status', ), ('client', ), 'complete', 'created', 'updated')
         }
         ),
         ('Коментар:', {
@@ -180,11 +180,11 @@ class QuickOrderAdmin(admin.ModelAdmin):
     def get_tire(self, obj):
         return obj.tire.category.name
 
-    def get_readonly_fields(self, request, obj=None):
+    # def get_readonly_fields(self, request, obj=None):
 
-        if obj.manager != None:
-           return  self.readonly_fields + ['manager',]
-        return self.readonly_fields
+    #     if obj.manager != None:
+    #        return  self.readonly_fields + ['manager',]
+    #     return self.readonly_fields
 
 
 @admin.register(Image)

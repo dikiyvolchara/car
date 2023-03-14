@@ -68,36 +68,36 @@
             <!-- <div class="carousel__slide"><img data-lazy-src="/media/car-plus-baner/baner-slide/generator.jpg" style="width:100%;"/></div> -->
             <div class="carousel__slide">
                 <a href="/shynomontash-pogreby">
-                    <img data-lazy-src="/media/car-plus-baner/baner-slide/shinomontash.jpg"  style="width:100%;"/>
+                    <img data-lazy-src="/media/car-plus-baner/baner-slide/shinomontash.jpg"  style="width:100%;" alt="Шиномонтаж" title="Шиномонтаж"/>
                 </a>
             </div>
-            <div class="carousel__slide"><img data-lazy-src="/media/car-plus-baner/baner-slide/save-tire-10.jpg"  style="width:100%;"/></div>
-            <div class="carousel__slide"><img data-lazy-src="/media/car-plus-baner/baner-slide/np-11.jpg" style="width:100%;"/></div>
+            <div class="carousel__slide"><img data-lazy-src="/media/car-plus-baner/baner-slide/save-tire-10.jpg"  style="width:100%;"  alt="Сеозне зберігання шин" title="Сезонне зберігання шин"/></div>
+            <div class="carousel__slide"><img data-lazy-src="/media/car-plus-baner/baner-slide/np-11.jpg" style="width:100%;"  alt="Доставка шин б.у" title="Доставка бу шин"/></div>
         </div>
 
         <div class="container mt-4 mb-4 pt-3" style="font-family:'Rubik';font-weight:600;font-size:18px;">
             <div class="row text-center section">
                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-6 border-right section_item">
                     <div class="row align-items-center">
-                        <div class="col-md-6 col-12"><img src="{% static 'admin/img/icons/secure-shield.png' %}"></div>
+                        <div class="col-md-6 col-12"><img src="{% static 'admin/img/icons/secure-shield.png' %}"  alt="Гарантія" title="Гарантія"></div>
                         <div class="col-md-6 col-12">Гарантія на монтаж</div>
                     </div>
                 </div>
                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-6 border-right section_item">
                     <div class="row align-items-center">
-                        <div class="col-md-6 col-12"><img src="{% static 'admin/img/icons/cards.png' %}"></div>
+                        <div class="col-md-6 col-12"><img src="{% static 'admin/img/icons/cards.png' %}"  alt="Программа лояльності" title="Программа лояльності"></div>
                         <div class="col-md-6 col-12">Програма лояльності</div>
                     </div>
                 </div>
                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-6 border-right section_item">
                     <div class="row align-items-center">
-                        <div class="col-md-6 col-12"><img src="{% static 'admin/img/icons/shipped.png' %}"></div>
+                        <div class="col-md-6 col-12"><img src="{% static 'admin/img/icons/shipped.png' %}"  alt="Доставка" title="Доставка бу шин"></div>
                         <div class="col-md-6 col-12">Доставка</div>
                     </div>
                 </div>
                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-6 section_item">
                     <div class="row align-items-center">
-                        <div class="col-md-6 col-12"><img src="{% static 'admin/img/icons/bonus.png' %}"></div>
+                        <div class="col-md-6 col-12"><img src="{% static 'admin/img/icons/bonus.png' %}" alt="Бонуси" title="Знижки"></div>
                         <div class="col-md-6 col-12">% Знижки</div>
                     </div>
                 </div>
@@ -151,11 +151,11 @@
                     {% if forloop.counter == 2 %}
                         <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-4 d-flex">
                             
-                            <img src="/media/weather-img/{{ weather.background|lower }}-img.png" style="object-fit:cover;width:100%;">
+                            <img src="/media/weather-img/{{ weather.background|lower }}-img.png" style="object-fit:cover;width:100%;" alt="Погода " title="Погода інформація">
                             
                             <div class="card-img-overlay" style="text-shadow:2px 2px 3px black;color:white;">
                                 <span style="font-size:22px;font-weight:600;">Прогноз погоди на сьогодні:</span><br/>
-                                <span>Місто: Київ <img src="https://openweathermap.org/img/w/{{ weather.icon }}.png" alt="Image"></span>
+                                <span>Місто: Київ <img src="https://openweathermap.org/img/w/{{ weather.icon }}.png" alt="Погода"></span>
                                 <span>Температура: {{ weather.temperature }}C°</span><br/>
                                 <span>Відчувається як: {{ weather.feels_like }}C°</span><br/>
                                 <hr/>
@@ -244,7 +244,7 @@
                                 <div class="col-4">
                                     <div class="trash-box">
                                         <a href="{{ tire.get_absolute_url}}#quick_order" rel=”nofollow”>
-                                            <img src="{% static 'admin/img/icons/shopping-cart.png' %}">
+                                            <img src="{% static 'admin/img/icons/shopping-cart.png' %}" alt="Швидке замовлення" title="Швидке замовлення б.у шин">
                                         </a>
                                     </div>
                                 </div>

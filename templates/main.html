@@ -75,7 +75,7 @@
                 <div class="form-inline my-1 my-lg-0 text-center" style="font-size:12px;">
                         
                         {% if user.is_authenticated %}
-                            <a href="{% url 'my-account' user.id %}">
+                            <a href="{% url 'my-account' %}">
                                 <img id="cart-icon" src="{% static 'admin/img/icons/account.png' %}" alt="accounts img" title="accounts title"> <br />
                                 {{ user.first_name }}
                             </a>
