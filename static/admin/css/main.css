@@ -237,6 +237,10 @@ body {
     height: 100%;
 }
 
+#cart-icon {
+    width: 32px!important;
+}
+
 @media screen and (max-width: 900px) {
 
     .carousel__button.is-next {
