@@ -7,9 +7,9 @@ class ProfileUser(models.Model):
 
     user_manager = models.ForeignKey(User, on_delete=models.CASCADE, related_name="client_manager", verbose_name="Менеджер клієнта", blank=True, null=True)
 
-    city = models.CharField(max_length=75, blank=True, null=True)
-    delivery = models.TextField(blank=True, null=True)
-    birthday = models.DateTimeField(blank=True, null=True)
+    city = models.CharField(max_length=75, blank=True, null=True, verbose_name="Місто")
+    delivery = models.TextField(blank=True, null=True, verbose_name="Доставка\Додаткова інформація:")
+    birthday = models.DateTimeField(blank=True, null=True, verbose_name="Дата народження")
     discount = models.PositiveIntegerField(blank=True, null=True)
 
     class Meta:
