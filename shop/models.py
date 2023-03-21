@@ -256,10 +256,10 @@ class QuickOrder(models.Model):
     tire = models.ForeignKey(Tire, related_name='quikoreder_tire', on_delete=models.CASCADE,  blank=True, null=True, verbose_name='ID шин')
     price = models.PositiveIntegerField(blank=True, null=True)
     status = models.CharField(max_length=50, choices=CHOICES, blank=True, null=True, default='-')
-    client = models.ForeignKey(User, related_name='client', on_delete=models.CASCADE, blank=True, null=True, verbose_name="Клієнт", help_text="Якщо клієнт зареєстрований, висвічується номер телефону зареєстрованого клієнта.")
-    manager = models.ForeignKey(User, related_name='quick_order_manager', on_delete=models.CASCADE, blank=True, null=True, verbose_name="Менеджер", help_text="Менеджер вибирається тільки в тому випадку, коли клієнт не зареєстрований, і оформив швидке замовлення. Якщо клієнт зареєстрований, менеджер присвоюється в особистій інформації про клієнта")
+    client = models.ForeignKey(User, related_name='client', on_delete=models.CASCADE, blank=True, null=True)
+    # manager = models.ForeignKey(User, related_name='quick_order_user', on_delete=models.CASCADE, blank=True, null=True)
     complete = models.BooleanField(default=False, verbose_name='Виконаний')
-    comment = models.TextField(blank=True)
+    comment = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

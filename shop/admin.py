@@ -154,11 +154,11 @@ class TireAdmin(SimpleHistoryAdmin):
 class QuickOrderAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {
-            'fields': ('phone', ('status', ), ('client', 'manager'), 'complete', 'created', 'updated')
+            'fields': ('phone', ('status', ), ('client', ), 'complete', 'created', 'updated')
         }
         ),
         ('Коментар:', {
-            'classes': ('wide', 'extrapretty'),
+            # 'classes': ('wide', 'extrapretty'),
             'fields': ('comment',)
         }
         ),

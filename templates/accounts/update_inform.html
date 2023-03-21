@@ -12,36 +12,10 @@
 
 {% block content %}
 
-<div class="container">
-    <div class="row">
-        <div class="col justify-content-center">
-            <h1>Оновлення особистих даних </h1>
-        </div>
-    </div>
-    <div class="row justify-content-md-center">
-        <div class="col">
-            <form method="post">
-                {% csrf_token %}
-            
-                <div class="form-group col-12">
-                    <label for="id_city">{{ form.city.label_tag }}</label>
-                    <input type="text" name="city" maxlength="75" id="id_city" class="form-control">
-                </div>
-
-                <div class="form-group col-12">
-                    <label for="id_delivery">{{ form.delivery.label_tag }}</label>
-                    <textarea name="delivery" cols="40" rows="10" id="id_delivery" class="form-control"></textarea>
-                </div>
-
-                <div class="form-group col-12">
-                    <label for="id_birthday">{{ form.birthday.label_tag }} (формат: 1990-11-21)</label>
-                    <input type="text" name="birthday" id="id_birthday" class="form-control" placeholder="Формат 2000-12-02">
-                </div>
-                <button type="submit" class="btn btn-primary">Sing In</button>
-            
-            </form>
-        </div>
-    </div>
-</div>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Додати інформацію</button>
+</form>
 
 {% endblock content %}
