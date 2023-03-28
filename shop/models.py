@@ -23,7 +23,6 @@ class Season(models.Model):
     description = RichTextField(null=True, blank=True, verbose_name='Опис сезону:')
     slug = models.SlugField(unique=True)
 
-
     class Meta:
         ordering = ['name']
         verbose_name = 'Сезон'
@@ -74,8 +73,19 @@ class Brand(models.Model):
 
 class BrandModel(models.Model):
     name = models.CharField(max_length=255, unique=True, verbose_name='Модель:')
-    brand = models.ForeignKey(Brand, related_name='brand_model', on_delete=models.CASCADE, verbose_name='Бренд моделі:')
-    season = models.ForeignKey(Season, related_name='brand_model_season', on_delete=models.CASCADE, verbose_name='Сезон моделі')
+
+    brand = models.ForeignKey(
+        Brand,
+        related_name='brand_model',
+        on_delete=models.CASCADE,
+        verbose_name='Бренд моделі:')
+
+    season = models.ForeignKey(
+        Season,
+        related_name='brand_model_season',
+        on_delete=models.CASCADE,
+        verbose_name='Сезон моделі')
+        
     description = RichTextField(null=True, blank=True, verbose_name='Опис моделі:')
     slug = models.SlugField(unique=True)
 
@@ -87,8 +97,6 @@ class BrandModel(models.Model):
     def __str__(self):
         return self.name
 
-    
-
     def get_absolute_url(self):
         return reverse('shop:brand_model_detail', kwargs={'brand_slug': self.brand.slug, 'slug': self.slug})
     #def get_absolute_url(self):
@@ -96,7 +104,14 @@ class BrandModel(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=50, unique=True, verbose_name='Категорія:')
-    kind = models.ForeignKey(Kind, default=1, related_name='category_kind', on_delete=models.CASCADE, verbose_name='Тип категорії:')
+
+    kind = models.ForeignKey(
+        Kind,
+        default=1,
+        related_name='category_kind',
+        on_delete=models.CASCADE,
+        verbose_name='Тип категорії:')
+
     description = RichTextField(null=True, blank=True, verbose_name='Опис категорії:')
     slug = models.SlugField(unique=True)
 
@@ -128,7 +143,6 @@ class IndexSpeed(models.Model):
     def __str__(self):
         return self.name_one
 
-
 class IndexLoad(models.Model):
     name_one = models.CharField(max_length=10, unique=True, verbose_name='Індекс:')
     name_two = models.CharField(max_length=25, verbose_name='Значення:')
@@ -141,7 +155,6 @@ class IndexLoad(models.Model):
     def __str__(self):
         return self.name_one
 
-
 class Tire(models.Model):
 
     CHOICES = (
@@ -152,14 +165,29 @@ class Tire(models.Model):
         ('Л/П', 'Л/П'),
     )
 
-    category = models.ForeignKey(Category, related_name='tire_category', on_delete=models.CASCADE, verbose_name='Категорія:')
+    category = models.ForeignKey(
+        Category,
+        related_name='tire_category',
+        on_delete=models.CASCADE,
+        verbose_name='Категорія:')
 
-    model = models.ForeignKey(BrandModel, related_name='tire_model', on_delete=models.CASCADE, verbose_name='Модель:')
+    model = models.ForeignKey(
+        BrandModel,
+        related_name='tire_model',
+        on_delete=models.CASCADE,
+        verbose_name='Модель:')
 
     index_load = models.ForeignKey(
-        IndexLoad, related_name='tire_index_load', on_delete=models.CASCADE, verbose_name='Індекс навантаження:')
+        IndexLoad,
+        related_name='tire_index_load',
+        on_delete=models.CASCADE,
+        verbose_name='Індекс навантаження:')
+
     index_speed = models.ForeignKey(
-        IndexSpeed, related_name='tire_index_speed', on_delete=models.CASCADE, verbose_name='Індекс швидкості:')
+        IndexSpeed,
+        related_name='tire_index_speed',
+        on_delete=models.CASCADE,
+        verbose_name='Індекс швидкості:')
 
     condition = models.IntegerField(verbose_name='Стан:')
     year = models.IntegerField(verbose_name='Рік:', blank=True, null=True)
@@ -174,6 +202,7 @@ class Tire(models.Model):
 
     recommend = models.BooleanField(default=False, verbose_name='Рекомендуєм:')
 
+    #additional properties
     shipy = models.BooleanField(default=False, verbose_name='Шипы')
     lipuchka = models.BooleanField(default=False, verbose_name='Липучка')
     run_flat = models.BooleanField(default=False, verbose_name='RunFlat')
@@ -182,17 +211,17 @@ class Tire(models.Model):
     mad = models.BooleanField(default=False, verbose_name='Грязевые')
     rain = models.BooleanField(default=False, verbose_name='Дождевые')
 
-
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    #for administrator
+    choice = models.CharField(max_length=50, choices=CHOICES, blank=True, null=True)
 
     slug = models.SlugField(max_length=200, db_index=True, unique=True, blank=True)
-
-    choice = models.CharField(max_length=50, choices=CHOICES, blank=True, null=True) #позначки для адміна по шинам
 
     qr_code = models.ImageField(upload_to='qr_codes', blank=True, null=True, help_text="QR-code генерується автоматично")
 
     articul = models.CharField(max_length=25, blank=True, null=True, verbose_name='Артикул')
+
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     history = HistoricalRecords()
 
@@ -231,7 +260,10 @@ class Tire(models.Model):
 class Image(models.Model):
     image = models.ImageField(upload_to='foto', verbose_name='Зображення:')
     tire = models.ForeignKey(
-        Tire, default=False, on_delete=models.CASCADE, verbose_name='Резина:')
+        Tire,
+        default=False,
+        on_delete=models.CASCADE,
+        verbose_name='Резина:')
 
     class Meta:
         ordering = ['tire']

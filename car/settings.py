@@ -41,8 +41,11 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'simple_history',
+    'django_filters',
+    'import_export',
     'shop',
     'accounts',
+    'new_tire',
 ]
 
 MIDDLEWARE = [
