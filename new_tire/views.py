@@ -1,3 +1,4 @@
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.template import loader
@@ -8,16 +9,36 @@ from .filters import TireFilter
 
 # Create your views here.
 
-class Home(ListView):
+# class Home(ListView):
     
-    queryset = Tire.objects.all()
-    template_name = 'new_tire/new-tire-list.html'
+#     queryset = Tire.objects.all().order_by('-in_stock')
+#     paginate_by = 2
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['filter'] = TireFilter(self.request.GET, queryset=self.get_queryset())
-        return context
-    
+#     template_name = 'new_tire/new-tire-list.html'
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['filter'] = TireFilter(self.request.GET, queryset=self.get_queryset())
+
+        
+#         return context
+
+def Home(request):
+    f = TireFilter(request.GET, queryset=Tire.objects.all().order_by('-in_stock'))
+
+    paginator = Paginator(f.qs, 33)
+    page = request.GET.get('page')
+    paged_listings = paginator.get_page(page)
+
+    context = {
+        'filter': f,
+        'paginator_filter': paged_listings
+    }
+
+    if request.method == 'GET':
+        print('Get')
+        return render(request, 'new_tire/new-tire-list.html', context)
+
 
 def TireDetail(request, slug):
 

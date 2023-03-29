@@ -8,5 +8,6 @@ urlpatterns = [
     path('old/update/', OlderRecordsUpdate, name="old_tire_update"),
     path('old/', OlderRecords, name="old_tire"),
     path('<str:slug>/', TireDetail, name='tire_detail'),
-    path('', Home.as_view(), name='new_tire'),
+    path('', Home, name='new_tire'),
+    #path('', Home.as_view(), name='new_tire'),
 ]
