@@ -3,7 +3,7 @@ from import_export import fields, resources
 from import_export.widgets import ForeignKeyWidget
 from import_export.admin import ImportExportModelAdmin
 from simple_history.admin import SimpleHistoryAdmin
-from .models import Tire, Width, Height, Radius, Brand, Kind, Season
+from .models import Tire, Width, Height, Radius, Brand, Kind, Season, QuickOrderNewTire
 
 # Register your models here.
 
@@ -66,7 +66,7 @@ class TireAdmin(ImportExportModelAdmin, SimpleHistoryAdmin):
     resource_classes = [TireResource]
 
 
-    list_display = ['articul', 'brand', 'kind', 'description', 'price_one', 'price_two', 'price_three', ]
+    list_display = ['articul', 'brand', 'kind', 'description', 'price_one', 'price_two', 'price_three', 'created', 'updated' ]
 
     # prepopulated_fields = {'slug': ('category', 'model' ), }
     history_list_display = ['price_one', 'price_two', 'price_three', ]
@@ -75,7 +75,44 @@ class TireAdmin(ImportExportModelAdmin, SimpleHistoryAdmin):
     # prepopulated_fields = {'slug': ('description', 'brand',  )}
 
 
+class QuickOrderNewTireAdmin(admin.ModelAdmin):
+    fieldsets = (
+        (None, {
+            'fields': ('phone', ('status', ), ('client', ), 'complete', 'created', 'updated')
+        }
+        ),
+        ('Коментар:', {
+            # 'classes': ('wide', 'extrapretty'),
+            'fields': ('comment',)
+        }
+        ),
+        ('Шини:', {
+            'classes': ('wide', 'extrapretty'),
+            'fields': ('tire', )
+        }
+        ),
+    )
+
+    list_display = ['id', 'phone', 'complete', 'status', 'created', 'updated', 'get_tire']
+    readonly_fields = ['created', 'updated', 'tire']
+
+    list_editable = ['complete',]
+    list_display_links = ['id', 'phone']
+    search_fields = ['phone',]
+    
+
+    def get_tire(self, obj):
+        return obj.tire.description
+
+    # def get_readonly_fields(self, request, obj=None):
+
+    #     if obj.manager != None:
+    #        return  self.readonly_fields + ['manager',]
+    #     return self.readonly_fields
+
+
 admin.site.register(Tire, TireAdmin)
+admin.site.register(QuickOrderNewTire, QuickOrderNewTireAdmin)
 admin.site.register(Width)
 admin.site.register(Height)
 admin.site.register(Radius)

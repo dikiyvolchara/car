@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils.text import slugify
 from simple_history.models import HistoricalRecords
@@ -163,3 +164,33 @@ class Tire(models.Model):
 
     def __str__(self):
         return str(self.description)
+
+
+class QuickOrderNewTire(models.Model):
+    
+    CHOICES = (
+        ('-', '-'),
+        ('Бронь', 'Бронь'),
+        ('Не відповів', 'Не відповів'),
+        ('Забрав', 'Забрав'),
+        ('Відмова', 'Відмова'),
+    )
+
+    phone = models.IntegerField(verbose_name="телефон")
+    tire = models.ForeignKey(Tire, related_name='quikoreder_new_tire', on_delete=models.CASCADE,  blank=True, null=True, verbose_name='ID шин')
+    price = models.PositiveIntegerField(blank=True, null=True)
+    status = models.CharField(max_length=50, choices=CHOICES, blank=True, null=True, default='-')
+    client = models.ForeignKey(User, related_name='new_tire_client', on_delete=models.CASCADE, blank=True, null=True)
+    # manager = models.ForeignKey(User, related_name='quick_order_user', on_delete=models.CASCADE, blank=True, null=True)
+    complete = models.BooleanField(default=False, verbose_name='Виконаний')
+    comment = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['complete']
+        verbose_name = 'Швидке замовлення'
+        verbose_name_plural = 'Швидкі замовлення'
+
+    def __str__(self):
+        return str(self.phone)

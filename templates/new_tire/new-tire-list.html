@@ -14,143 +14,232 @@
 {% endblock description %}
 
 {% block content %}
-
-<form method="GET">
-  {{ filter.form.as_p }}
-  <button type="submit">Submit</button>
-</form>
-
 <div class="container">
-  <div class="row">
+    <div class="row">
+        <div class="col-12 text-center">
+            <h1>Нові шини {% if user.is_superuser %} <a href="/new-tires/update-price/update">Оновити прайс</a> {% endif %}</h1>
+            <hr>
+        </div>
+    </div>
+</div>
 
-    {% for tire in paginator_filter %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-12 mb-4">
+            <div class="container-fluid">
+                <form methood="GET">
+                    <div class="row">
+                    
+                        <div class="col">
+                            <div class="form-group">
+                                {{ filter.form.ordering }}
+                            </div>
+                        </div>
 
-      {% if forloop.counter == 4 %}
-      <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-4 d-flex">
-          <img src="/media/ads-img/image-ads.png" alt="Знижка на шиномонтаж" title="Шиномонтаж акційна пропозиція" style="object-fit:contain;width:100%;">
-      </div>
-      {% endif %}
+                        <div class="col">
+                            <div class="form-group">
+                                <!-- <label for="id_price_two__gt">{{ filter.form.price__gt.label_tag }}</label> -->
+                                {{ filter.form.price__gt }}
+                                <small id="id_price_two__gt" class="form-text text-muted">Вартість від:</small>
+                            </div>
+                        </div>
 
+                        <div class="col">
+                            <div class="form-group">
+                                <!-- <label for="id_price_two__lt">{{ filter.form.price__gt.label_tag }}</label> -->
+                                {{ filter.form.price__lt }}
+                                <small id="id_price_two__lt" class="form-text text-muted">Вартість до:</small>
+                            </div>
+                        </div>
 
-      <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-4">
-          <div class="card d-flex">
-              <div class="picture-resize">
-                {% if tire.image %}
-                  <img class="card-img card-img2" src="{% with tire.image_set.all|first as img %} {{ img.image.url }} {% endwith %}" alt="Шини б\у {{ tire.category }}">
-                {% else %}
-                  <img class="card-img card-img2" src="/media/ads-img/new-car-tire.png" alt="Шини б\у {{ tire.category }}">
-                {% endif %}
-              </div>
-              <div class="card-img-overlay">
-                  {% if tire.recommend %}
-                      <h5 class="card-recomend">Рекомендуємо</h5>
-                  {% endif %}
-                  <h5 class="card-delivery">Доставка 1-3 дні</h5>
-              </div>
-              <div class="col text-right card-icon mt-2 mb-3">
-                  {% if tire.shipy %}
-                      <img src="{% static 'admin/img/icons/tire-ship.png' %}" alt="Під шип" title="Під шип">
-                  {% endif %}
-                  {% if tire.lipuchka %}
-                      <img src="{% static 'admin/img/icons/tire-ship.png' %}" alt="Липучка" title="Липучка">
-                  {% endif %}
-                  {% if tire.run_flat %}
-                      <img src="{% static 'admin/img/icons/mfs.png' %}" alt="RunFlat" title="RunFlat">
-                  {% endif %}
-                  {% if tire.conti_seal %}
-                      <img src="{% static 'admin/img/icons/contiseal.png' %}" alt="Автоліквідація проколів" title="Автоліквідація проколів">
-                  {% endif %}
-                  {% if tire.low_prof %}
-                      <img src="{% static 'admin/img/icons/runflat.png' %}" alt="Низький профіль" title="Низький профіль">
-                  {% endif %}
-                  {% if tire.mad %}
-                      <img src="{% static 'admin/img/icons/mad.png' %}" alt="Грязьові" title="Грязьові">
-                  {% endif %}
-                  {% if tire.rain %}
-                      <img src="{% static 'admin/img/icons/rain.png' %}" alt="Дождьові" title="Дождьові">
-                  {% endif %}
+                        <div class="col-12">
+                            <div class="form-group">
+                                <!-- <label for="id_price_two__lt">{{ filter.form.price__gt.label_tag }}</label> -->
+                                {{ filter.form.brand }}
+                                <small id="id_brand" class="form-text text-muted">Бренд:</small>
+                            </div>
+                        </div>
 
-                  {% if tire.kind.name == 'Легкові' %}
-                      <img src="{% static 'admin/img/icons/sedan.png' %}" alt="Легкові" title="Легкові">
-                  {% elif tire.kind.name  == 'LT' %}
-                      <img src="{% static 'admin/img/icons/truck.png' %}" alt="Легкогрузові" title="Легкогрузові">
-                  {% endif %}
+                        <div class="col-12">
+                            <div class="form-group">
+                                <!-- <label for="id_price_two__lt">{{ filter.form.price__gt.label_tag }}</label> -->
+                                {{ filter.form.width }}
+                                <small id="id_width" class="form-text text-muted">Ширина:</small>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <!-- <label for="id_price_two__lt">{{ filter.form.price__gt.label_tag }}</label> -->
+                                {{ filter.form.height }}
+                                <small id="id_height" class="form-text text-muted">Висота:</small>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <!-- <label for="id_price_two__lt">{{ filter.form.price__gt.label_tag }}</label> -->
+                                {{ filter.form.radius }}
+                                <small id="id_radius" class="form-text text-muted">Радіус:</small>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <!-- <label for="id_price_two__lt">{{ filter.form.price__gt.label_tag }}</label> -->
+                                {{ filter.form.season }}
+                                <small id="id_season" class="form-text text-muted">Сезон:</small>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <!-- <label for="id_price_two__lt">{{ filter.form.price__gt.label_tag }}</label> -->
+                                {{ filter.form.kind }}
+                                <small id="id_kind" class="form-text text-muted">Тип:</small>
+                            </div>
+                        </div>
 
-                  {% if tire.season.name == 'літо' %}
-                      <img src="{% static 'admin/img/icons/sun.png' %}" alt="Літо" title="Літо">
-                  {% elif tire.season.name == 'зима' %}
-                      <img src="{% static 'admin/img/icons/snowflake.png' %}" alt="Зима" title="Зима">
-                  {% else %}
-                      <img src="{% static 'admin/img/icons/sun-winter.png' %}" alt="Всесезон" title="Всесезон">
-                  {% endif %}
-              </div>
-              <div class="col brand-title">
-                  <a href="{{ tire.get_absolute_url }}">{{ tire.description|upper }}<br>{{ tire.brand.name|truncatechars:20 }}</a> 
-                  
-              </div>
-              <div class="col text-success">
-                      У наявності: {{ tire.in_stock }} шт
-              </div>
-              <div class="col card-address">
-                  вул. Єдності, 94 (Троєщина-Погреби)<br>
-                  Самовивіз на сьогодні
-              </div>
-              <div class="container-fluid">
-                  <div class="row">
-                      <div class="col-8">
-                          <span class="size bg-link">
-                              <a href="{{ tire.get_absolute_url }}">{{ tire.category }}</a> 
-                          </span>
-                          <span class="price bg-link">Самовивіз - &#8372;{{ tire.price_two|floatformat:0}}</span>
-                          <span class="price bg-link">доставка - &#8372;{{ tire.price_three|floatformat:0}}</span>
-                      </div>
+                        <button  class="btn btn-success" type="submit">Фільтрувати</button>
+                    
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-xl-10 col-lg-9 col-md-8 col-sm-8 col-12 mb-4">
 
-                      <div class="col-4">
-                          <div class="trash-box">
-                              <a href="{{ tire.get_absolute_url}}#quick_order" rel=”nofollow”>
-                                  <img src="{% static 'admin/img/icons/shopping-cart.png' %}" alt="Швидке замовлення" title="Швидке замовлення бу шин">
-                              </a>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-    {% endfor %}
-  </div>
-
-  <div class="row">
-    <div class="col-md-12">
-                              {% if paginator_filter.has_other_pages %}</p>
-    <ul class="pagination">
-                                {% if paginator_filter.has_previous %}</p>
-    <li class="page-item">
-                                    <a href="?page={{paginator_filter.previous_page_number}}" class="page-link">«</a>
-                                  </li>
-    <p>                            {% else%}</p>
-    <li class="page-item disabled"></li>
-    <p>                              <a class="page-link">«</a><br />
-                                {% endif %}<br />
-                                {% for i in paginator_filter.paginator.page_range %}<br />
-                                  {% if paginator_filter.paginator.page_range %}<br />
-                                    {% if paginator_filter.number == i%}</p>
-    <li class="page-item active"><a  class="page-link">{{i}}</a></li>
-    <p>                                {% else %}</p>
-    <li class="page-item"><a  href="?page={{i}}" class="page-link">{{i}}</a></li>
-    <p>                                {% endif%}<br />
-                                  {% endif %}<br />
-                                {% endfor %}<br />
-                                {% if paginator_filter.has_next %}</p>
-    <li class="page-item">
-                                  <a href="?page={{paginator_filter.next_page_number}}" class="page-link">»</a>
-                                </li>
-    <p>                          {% else%}</p>
-    <li class="page-item disabled"></li>
-    <p>                            <a class="page-link">»</a><br />
+            <div class="container-fluid">
+                <div class="row">
+              
+                  {% for tire in paginator_filter %}
+              
+                    {% if forloop.counter == 4 %}
+                    <div class="col-xl-2 col-lg-3 col-md-6 col-sm-6 col-6 mb-4 d-flex">
+                        <img src="/media/ads-img/image-ads.png" alt="Знижка на шиномонтаж" title="Шиномонтаж акційна пропозиція" style="object-fit:contain;width:100%;">
+                    </div>
+                    {% endif %}
+              
+              
+                    <div class="col-xl-2 col-lg-3 col-md-6 col-sm-6 col-6 mb-4">
+                        <div class="card d-flex">
+                            <div class="picture-resize">
+                              {% if tire.image %}
+                                <img class="card-img card-img2" src="{% with tire.image_set.all|first as img %} {{ img.image.url }} {% endwith %}" alt="Шини б\у {{ tire.category }}">
+                              {% else %}
+                                <img class="card-img card-img2" src="/media/ads-img/new-car-tire.png" alt="Шини б\у {{ tire.category }}">
                               {% endif %}
-                              </ul>
-    <p>                          {% endif %}
-                            </p></div>
-    </p></div>
+                            </div>
+                            <div class="card-img-overlay">
+                                {% if tire.recommend %}
+                                    <h5 class="card-recomend">Рекомендуємо</h5>
+                                {% endif %}
+                                <h5 class="card-delivery">Доставка 1-3 дні</h5>
+                            </div>
+                            <div class="col text-right card-icon mt-2 mb-3">
+                                {% if tire.shipy %}
+                                    <img src="{% static 'admin/img/icons/tire-ship.png' %}" alt="Під шип" title="Під шип">
+                                {% endif %}
+                                {% if tire.lipuchka %}
+                                    <img src="{% static 'admin/img/icons/tire-ship.png' %}" alt="Липучка" title="Липучка">
+                                {% endif %}
+                                {% if tire.run_flat %}
+                                    <img src="{% static 'admin/img/icons/mfs.png' %}" alt="RunFlat" title="RunFlat">
+                                {% endif %}
+                                {% if tire.conti_seal %}
+                                    <img src="{% static 'admin/img/icons/contiseal.png' %}" alt="Автоліквідація проколів" title="Автоліквідація проколів">
+                                {% endif %}
+                                {% if tire.low_prof %}
+                                    <img src="{% static 'admin/img/icons/runflat.png' %}" alt="Низький профіль" title="Низький профіль">
+                                {% endif %}
+                                {% if tire.mad %}
+                                    <img src="{% static 'admin/img/icons/mad.png' %}" alt="Грязьові" title="Грязьові">
+                                {% endif %}
+                                {% if tire.rain %}
+                                    <img src="{% static 'admin/img/icons/rain.png' %}" alt="Дождьові" title="Дождьові">
+                                {% endif %}
+              
+                                {% if tire.kind.name == 'Легкові' %}
+                                    <img src="{% static 'admin/img/icons/sedan.png' %}" alt="Легкові" title="Легкові">
+                                {% elif tire.kind.name  == 'LT' %}
+                                    <img src="{% static 'admin/img/icons/truck.png' %}" alt="Легкогрузові" title="Легкогрузові">
+                                {% endif %}
+              
+                                {% if tire.season.name == 'літо' %}
+                                    <img src="{% static 'admin/img/icons/sun.png' %}" alt="Літо" title="Літо">
+                                {% elif tire.season.name == 'зима' %}
+                                    <img src="{% static 'admin/img/icons/snowflake.png' %}" alt="Зима" title="Зима">
+                                {% else %}
+                                    <img src="{% static 'admin/img/icons/sun-winter.png' %}" alt="Всесезон" title="Всесезон">
+                                {% endif %}
+                            </div>
+                            <div class="col brand-title">
+                                <a href="{{ tire.get_absolute_url }}">{{ tire.description|upper }}<br>{{ tire.brand.name|truncatechars:20 }}</a> 
+                                
+                            </div>
+                            <div class="col text-success">
+                                    У наявності: {{ tire.in_stock }} шт
+                            </div>
+                            <div class="col card-address">
+                                вул. Єдності, 94 (Троєщина-Погреби)<br>
+                                Самовивіз на сьогодні
+                            </div>
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <span class="size bg-link">
+                                            <a href="{{ tire.get_absolute_url }}">{{ tire.category }}</a> 
+                                        </span>
+                                        <span class="price bg-link">Самовивіз - &#8372;{{ tire.price_two|floatformat:0}}</span>
+                                        <span class="price bg-link">Доставка - &#8372;{{ tire.price_three|floatformat:0}}</span>
+                                    </div>
+              
+                                    <div class="col-4">
+                                        <div class="trash-box">
+                                            <a href="{{ tire.get_absolute_url}}#quick_order" rel=”nofollow”>
+                                                <img src="{% static 'admin/img/icons/shopping-cart.png' %}" alt="Швидке замовлення" title="Швидке замовлення бу шин">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  {% endfor %}
+                </div>
+              
+                <div class="row">
+                  <div class="col-md-12">
+                                            {% if paginator_filter.has_other_pages %}</p>
+                  <ul class="pagination">
+                                              {% if paginator_filter.has_previous %}</p>
+                  <li class="page-item">
+                                                  <a href="?page={{paginator_filter.previous_page_number}}" class="page-link">«</a>
+                                                </li>
+                  <p>                            {% else%}</p>
+                  <li class="page-item disabled"></li>
+                  <p>                              <a class="page-link">«</a><br />
+                                              {% endif %}<br />
+                                              {% for i in paginator_filter.paginator.page_range %}<br />
+                                                {% if paginator_filter.paginator.page_range %}<br />
+                                                  {% if paginator_filter.number == i%}</p>
+                  <li class="page-item active"><a  class="page-link">{{i}}</a></li>
+                  <p>                                {% else %}</p>
+                  <li class="page-item"><a  href="?page={{i}}" class="page-link">{{i}}</a></li>
+                  <p>                                {% endif%}<br />
+                                                {% endif %}<br />
+                                              {% endfor %}<br />
+                                              {% if paginator_filter.has_next %}</p>
+                  <li class="page-item">
+                                                <a href="?page={{paginator_filter.next_page_number}}" class="page-link">»</a>
+                                              </li>
+                  <p>                          {% else%}</p>
+                  <li class="page-item disabled"></li>
+                  <p>                            <a class="page-link">»</a><br />
+                                            {% endif %}
+                                            </ul>
+                  <p>                          {% endif %}
+                                          </p></div>
+                  </p></div>
+              </div>
+
+        </div>
+    </div>
+    
 </div>
 {% endblock content %}

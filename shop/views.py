@@ -169,7 +169,7 @@ def TireDetail(request, category_slug, slug):
                     messages.success(request, "Дякуємо! Заявка надіслана успішно! Скоро з Вами зв'яжеться наш менеджер.")
                 else:
                     
-                    obj, create = QuickOrder.objects.update_or_create(phone=qo.phone, tire=tire, price=tire.price, client=request.user)
+                    obj, create = QuickOrder.objects.update_or_create(phone=qo.phone, tire=tire, price=tire.price)
                     messages.success(request, "Дякуємо! Заявка надіслана успішно! Скоро з Вами зв'яжеться наш менеджер.")
     else:
         form = QuickOrderForm()

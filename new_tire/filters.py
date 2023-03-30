@@ -10,14 +10,24 @@ class TireFilter(django_filters.FilterSet):
         ('cheap', 'Дешевші')
     )
 
-    ordering = django_filters.ChoiceFilter(label='Сортувати:', choices=CHOICES, method='filter_by_order')
+    ordering = django_filters.ChoiceFilter(choices=CHOICES, method='filter_by_order', empty_label="Сортувати")
 
+    price__gt = django_filters.NumberFilter(
+        label='Вартість від',
+        field_name='price_two',
+        lookup_expr='gt')
+
+    price__lt = django_filters.NumberFilter(
+        label='До',
+        field_name='price_two',
+        lookup_expr='lt')
 
     brand = django_filters.ModelMultipleChoiceFilter(
         label='Бренд',
         field_name='brand__name',
         to_field_name='name',
         queryset=Brand.objects.all(),
+        # widget=forms.Select(attrs={'class': 'form-control', 'multiple': '', })
     )
 
     width = django_filters.ModelMultipleChoiceFilter(
@@ -59,14 +69,14 @@ class TireFilter(django_filters.FilterSet):
         expression = '-price_two' if value == 'expensive' else 'price_two'
         return queryset.order_by(expression)
         
-    class Meta:
-        model = Tire
+    # class Meta:
+    #     model = Tire
         
-        # fields = ('brand', 'width', 'height', 'radius', 'kind', 'season')
-        fields = {
-            'price_two': ['gt', 'lt'],
-            # 'brand': ['exact', ],
-            # 'width': ['exact', ],
-            # 'height': ['exact', ],
-            # 'radius': ['exact', ],
-        }
+    #     # fields = ('brand', 'width', 'height', 'radius', 'kind', 'season')
+    #     fields = {
+    #         'price_two': ['gt', 'lt'],
+    #         # 'brand': ['exact', ],
+    #         # 'width': ['exact', ],
+    #         # 'height': ['exact', ],
+    #         # 'radius': ['exact', ],
+    #     }
