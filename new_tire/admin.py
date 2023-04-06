@@ -71,7 +71,7 @@ class TireAdmin(ImportExportModelAdmin, SimpleHistoryAdmin):
     # prepopulated_fields = {'slug': ('category', 'model' ), }
     history_list_display = ['price_one', 'price_two', 'price_three', ]
     list_display_links = ['articul', ]
-    search_fields = ['articul', 'brand', 'description']
+    search_fields = ['articul', 'brand__name', 'description']
     # prepopulated_fields = {'slug': ('description', 'brand',  )}
 
 

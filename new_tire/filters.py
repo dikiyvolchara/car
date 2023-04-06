@@ -1,6 +1,8 @@
 import django_filters
 from django import forms
 
+from django.utils.translation import gettext as _
+
 from .models import *
 
 class TireFilter(django_filters.FilterSet):
@@ -9,6 +11,8 @@ class TireFilter(django_filters.FilterSet):
         ('expensive', 'Дорожчі'),
         ('cheap', 'Дешевші')
     )
+
+    description = django_filters.CharFilter(lookup_expr='icontains')
 
     ordering = django_filters.ChoiceFilter(choices=CHOICES, method='filter_by_order', empty_label="Сортувати")
 
@@ -27,6 +31,7 @@ class TireFilter(django_filters.FilterSet):
         field_name='brand__name',
         to_field_name='name',
         queryset=Brand.objects.all(),
+        lookup_expr='in',
         # widget=forms.Select(attrs={'class': 'form-control', 'multiple': '', })
     )
 

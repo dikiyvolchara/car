@@ -27,7 +27,7 @@ from .filters import TireFilter
 #         return context
 
 def Home(request):
-    f = TireFilter(request.GET, queryset=Tire.objects.all().order_by('-in_stock'))
+    f = TireFilter(request.GET, queryset=Tire.objects.all().order_by('-season', '-in_stock'))
 
     paginator = Paginator(f.qs, 33)
     page = request.GET.get('page')
