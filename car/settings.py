@@ -44,8 +44,9 @@ INSTALLED_APPS = [
     'django_filters',
     'import_export',
     'shop',
-    'accounts',
     'new_tire',
+    'storage_tire',
+    # 'accounts',
 ]
 
 MIDDLEWARE = [

@@ -24,8 +24,8 @@ handler404 = "shop.views.page_not_found_view"
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('ckeditor/', include('ckeditor_uploader.urls')),
-    path('accounts/', include('accounts.urls')),
-    path('accounts/', include('django.contrib.auth.urls')),
+    # path('accounts/', include('accounts.urls')),
+    # path('accounts/', include('django.contrib.auth.urls')),
     path('new-tires/', include('new_tire.urls')),
     path('', include('shop.urls')),
 ]

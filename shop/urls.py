@@ -6,6 +6,8 @@ app_name = 'shop'
 urlpatterns = [
 	path('', views.index, name="index"),
 
+    path('test/test', views.test, name='test'),
+
 	path('contact', views.Contact, name="contact"),
 	path('shynomontash-pogreby', views.Montash, name="montash"),
 

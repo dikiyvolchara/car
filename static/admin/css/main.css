@@ -245,10 +245,13 @@ body {
 
     .carousel__button.is-next {
         right: 5%!important;
+        display: none;
+        
     }
 
     .carousel__button.is-prev {
         left: 5%!important;
+        display: none;
     }
 
     .carousel__slide {

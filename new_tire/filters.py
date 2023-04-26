@@ -31,7 +31,6 @@ class TireFilter(django_filters.FilterSet):
         field_name='brand__name',
         to_field_name='name',
         queryset=Brand.objects.all(),
-        lookup_expr='in',
         # widget=forms.Select(attrs={'class': 'form-control', 'multiple': '', })
     )
 

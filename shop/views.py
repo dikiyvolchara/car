@@ -317,3 +317,14 @@ def render_pdf_category_view(request, category_slug):
 
 def page_not_found_view(request, exception):
     return render(request, 'shop/404.html', status=404)
+
+from .filters import UseTireFilter
+def test(request):
+    f = UseTireFilter(request.GET, queryset=Tire.objects.all())
+
+    context = {
+        'filter': f,
+    }
+
+    if request.method == 'GET':
+        return render(request, 'shop/test.html', context)

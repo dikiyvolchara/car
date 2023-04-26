@@ -1,0 +1,30 @@
+{% extends 'new_main.html' %}
+{% load static %}
+{% load custom_tags %}
+
+{% block title %}
+<title>Test - Test</title>
+
+
+
+{% endblock title %}
+
+{% block description %}
+
+{% endblock description %}
+
+{% block content %}
+
+<form method="GET">
+    {{ filter.form }}
+    <button type="submit">sss</button>"
+</form>
+
+{% for tire in filter.qs %}
+    {{ tire }}<br />
+{% endfor %}
+
+
+
+
+{% endblock content %}
