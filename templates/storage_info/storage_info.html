@@ -1,0 +1,138 @@
+
+{% extends 'main.html' %}
+{% load static %}
+
+    {% block title %}
+        <title>{{ object.tire_info }}</title>
+    {% endblock title %}
+
+    {% block description %}
+        <meta name="robots" content="noindex, nofollow" />
+    {% endblock description %}
+    
+    {% block content %}
+        <div class="container">
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <h1>Зберігання: {{ object.tire_info }}</h1>>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-4 col-12">
+                    {% if object.image %}
+                        <img class="card-img" src="{% with object.image_set.all|first as img %} {{ img.image.url }} {% endwith %}" style="width:100%;">
+                    {% else %}
+                        <img src="/media/ads-img/new-car-tire.png" style="width:100%;">
+                    {% endif %}
+                    <div class="container">
+                        <div class="row">
+                            {% for img in object.image_set.all %}
+                            <div class="col mt-3" style="height:100px;">
+                                <img src="{{ img.image.url }}" class="mh-100" alt="{{ tire.category }} - {{ tire.model.brand }} {{ tire.model }} резина б\у" title="Шини бу {{ tire.category }} - {{ tire.model.brand }} {{ tire.model }}">
+                            </div>
+                            {% endfor%}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-8 col-lg-8 col-md-8 col-12">
+
+
+                    <table class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Інформація:</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th scope="row">Клієнт:</th>
+                            <td><a href="{{ object.client.get_absolute_url }}">{{ object.client.name }}</a></td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Моб.номер:</th>
+                            <td>{{ object.client.mobile }}</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Шини:</th>
+                            <td>{{ object.tire_info }}</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Рік:</th>
+                            <td>{{ object.year }}</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Країна:</th>
+                            <td>{{ object.country }}</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Стан:</th>
+                            <td>{{ object.condition }}</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Кількість:</th>
+                            <td>{{ object.number }}</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Комплектація:</th>
+                            <td>{{ object.complete_set.name }}</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Пакети:</th>
+                            <td>{% if object.package %} Так {% else %} Ні {% endif %}</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Дод.інформ.:</th>
+                            <td>{{ object.additional }}</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Зберігання з:</th>
+                            <td>{{ object.storage_from }}</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Зберігання по:</th>
+                            <td>{{ object.storage_to }}</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Кількість днів:</th>
+                            <td>{{ object.quantity_days }}</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Вартість:</th>
+                            <td>{{ object.cost }} грн</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Оплачено:</th>
+                            <td>{% if object.payee %} {{ object.payee }}грн {% else %} Не оплачено {% endif %}</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">QR-Code:</th>
+                            <td><img src="{{ object.qr_code.url }}" style="width: 50px;"></td>
+                          </tr>
+                        </tbody>
+                      </table>
+
+
+
+                </div>
+
+            </div>
+        </div>
+    {% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{{ object.tire_info }}/ <br>
+{{object.client.name }}

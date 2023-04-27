@@ -15,6 +15,7 @@ from PIL import ImageDraw
 class Client(models.Model):
     name = models.CharField(max_length=999, unique=True, verbose_name="Ім'я")
     mobile = models.CharField(max_length=15, unique=True, verbose_name="Моб. тел:")
+    slug = models.SlugField(unique=True, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     history = HistoricalRecords()
 
@@ -24,6 +25,9 @@ class Client(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('storage_info:client_storage_info', kwargs={'slug': self.slug})
 
 #Complete Set for storage tires
 class CompleteSet(models.Model):
@@ -43,6 +47,7 @@ class StorageInfo(models.Model):
     client = models.ForeignKey(
         Client,
         on_delete=models.CASCADE,
+        related_name='storage_client_tire',
         verbose_name='Клієнт:')
 
     tire_info = models.CharField(max_length=999, verbose_name='Шини:')
@@ -58,10 +63,13 @@ class StorageInfo(models.Model):
         verbose_name='Комплектація:'
     )
 
-    additional = models.TextField(verbose_name='Додатковий опис:')
+    package = models.BooleanField(default=False, blank=True, null=True, db_index=False)
+
+    additional = models.TextField(verbose_name='Додатковий опис')
 
     storage_from = models.DateTimeField(verbose_name='Зберігання з:')
     storage_to = models.DateTimeField(verbose_name='Зберігання до:')
+    quantity_days = models.CharField(max_length=255, blank=True, null=True, verbose_name='Кількість днів:')
 
     cost = models.IntegerField(null=True, blank=True, verbose_name='Вартість:')
     payee = models.IntegerField(null=True, blank=True, verbose_name='Оплата')
@@ -69,31 +77,47 @@ class StorageInfo(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
+    
+    slug = models.SlugField(unique=True, blank=True, null=True)
+    
+    qr_code = models.ImageField(upload_to='foto_storage_tire/qr_codes', blank=True, null=True, help_text="QR-code генерується автоматично")
+
     history = HistoricalRecords()
 
     class Meta:
-        ordering = ['created']
+        ordering = ['-created']
         verbose_name_plural = 'Шини'
 
     def save(self, *args, **kwargs):
-        # super(StorageInfo, self).save()
-
-        # if self.complete_set == 'Шини':
-        #     day = self.storage_to - self.storage_from
-        #     cost = day.days * self.complete_set.price * self.number
-        #     super(StorageInfo, self).save()
-        # else:
-
+        
         days = self.storage_to - self.storage_from
-        self.cost = days.days * self.complete_set.price * self.number
+        if self.package:
+            self.cost = days.days * self.complete_set.price * self.number + 50
+        else:
+            self.cost = days.days * self.complete_set.price * self.number
+        self.quantity_days = days.days
         super(StorageInfo, self).save()
 
+        if not self.qr_code:
+            
+            qrcode = segno.make(f'https://car-plus.kyiv.ua/storage_tire/{self.slug}/', error='l')
+            out = BytesIO()
+            qrcode.save(out, kind='png', dark='#000', light=None, scale=10)
+            # qrcode.to_artistic(background='/car_env/media/LOGO-CAR.png', target=out, scale=40, kind='png')
+            self.qr_code.save(f'{self.id}.png', File(out), save=False)
+
+            super(StorageInfo, self).save()
+
+        if not self.slug:
+            self.slug = slugify(self.tire_info) + '-' + str(self.id)
+            super(StorageInfo, self).save()
+
         
-
-
-
     def __str__(self):
         return self.tire_info
+
+    def get_absolute_url(self):
+        return reverse('storage_info:detail_storage_info', kwargs={'client_slug': self.client.slug, 'slug': self.slug})
 
 
 #Foto storage tires

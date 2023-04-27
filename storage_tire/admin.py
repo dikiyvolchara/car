@@ -10,11 +10,16 @@ class ClientAdmin(SimpleHistoryAdmin):
         }),
         ('Номер:', {
             'fields': ('mobile',)
+        }),
+        ('Посилання:', {
+            'classes': ('collapse', ),
+            'fields': ('slug', )
         })
     )
 
     list_display = ['name', 'mobile']
     search_fields = ['name', 'mobile']
+    prepopulated_fields = {'slug': ('name', )}
     history_list_display = ['name', 'mobile']
 
 class CompleteSetAdmin(SimpleHistoryAdmin):
@@ -46,6 +51,9 @@ class StorageInfoAdmin(SimpleHistoryAdmin):
         ('Комплектація:', {
             'fields': ('complete_set',)
         }),
+        ('Пакети:', {
+            'fields': ('package',)
+        }),
         ('Додатковий опис, фурнфтура', {
             'fields': ('additional', )
         }),
@@ -53,7 +61,11 @@ class StorageInfoAdmin(SimpleHistoryAdmin):
             'fields': (('storage_from', ), ('storage_to', ) )
         }),
         ('Вартість \ Оплата:', {
-            'fields': (('cost', ), ('payee',))
+            'fields': (('cost', ), ('payee',), ('quantity_days'))
+        }),
+        ('Посилання . QRCode:', {
+            'classes': ('collapse',),
+            'fields': (('qr_code', ), ('slug', ))
         })
     )
 
@@ -61,6 +73,8 @@ class StorageInfoAdmin(SimpleHistoryAdmin):
     history_list_display = ['tire_info', 'cost', 'payee'', storage_from', 'storage_to']
     list_display_links = ['client', 'tire_info']
     search_fields = ['client', 'tire_info']
+
+    # prepopulated_fields = {'slug': ('tire_info',)}
 
     inlines = [ImageAdmin]
 

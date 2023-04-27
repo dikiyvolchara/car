@@ -1,0 +1,46 @@
+{% extends 'main.html' %}
+{% load static %}
+
+    {% block title %}
+        <title>{{ object.name }}</title>
+    {% endblock title %}
+
+    {% block description %}
+        <meta name="robots" content="noindex, nofollow" />
+    {% endblock description %}
+    
+    {% block content %}
+        <div class="container">
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <h1>Зберігання: {{ object.name }}</h1>>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <table class="table table-striped">
+                            <thead>
+                              <tr>
+                                <th scope="col">Арт:</th>
+                                <th scope="col">Інформація:</th>
+                                <th scope="col">Кількість:</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+
+                                {% for obj in object.storage_client_tire.all %}
+                                <tr>
+                                    <th scope="row"><a href="{{ obj.get_absolute_url }}">{{ obj.id }}</a></th>
+                                    <td><a href="{{ obj.get_absolute_url }}">{{ obj.tire_info }}</a></td>
+                                    <td>{{ obj.number }}</td>
+                                </tr>
+                                {% endfor %}
+
+                            </tbody>
+                          </table>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    {% endblock content %}
+
