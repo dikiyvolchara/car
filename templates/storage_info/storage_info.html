@@ -14,7 +14,11 @@
         <div class="container">
             <div class="row">
                 <div class="col-12 mb-3">
-                    <h1>Зберігання: {{ object.tire_info }}</h1>>
+                    <h1>Зберігання: {{ object.tire_info }}</h1>
+                    {% if user.is_superuser %}
+                        <a href="/storage_info/pdf/{{ object.id }}"><i class="fa fa-print"></i></a>
+                        <a href="/admin/storage_tire/storageinfo/{{ object.id }}/change/"><i class="fa fa-pencil"></i></a>
+                    {% endif %}
                 </div>
             </div>
             <div class="row">

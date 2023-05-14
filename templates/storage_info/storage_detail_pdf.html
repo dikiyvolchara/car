@@ -1,0 +1,222 @@
+<html>
+    <head>
+        <meta charset="'utf-8">
+        <meta name="robots" content="noindex, nofollow" />
+        <title></title>
+
+        <style>
+            @page {
+                size: a6 landscape;
+                margin: 0.25cm;
+            }
+
+            @font-face {
+                font-family: Michelin;
+                src: url('/.fonts/Michelin/Michelin-Black.ttf');
+            }
+
+
+            @font-face {
+                font-family: Michelin-Light;
+                src: url('/.fonts/Michelin/Michelin-Light.ttf');
+            }
+
+            .table-wrapper {
+                position: relative;
+                width: 100%;
+                border: 1px dotted grey;
+            }
+
+            .header-size-one {
+                width: 35%;
+                font-family: serif, Michelin-Light;
+                font-size: 14px;
+                text-align: left;
+                padding: 5px 0 0 5px;
+            }
+
+            .header-size-two {
+                font-family: Michelin;
+                font-size: 14px;
+                text-align: left;
+                padding: 5px 0 0 5px;
+            }
+
+            ul li {
+                display: inline;
+            }
+            
+            .list-detail {
+                top: 0;
+                padding: 0 0 0 25px;
+            }
+
+            .price-pdf {
+                font-family: Michelin;
+                font-size: 14px;
+                border: 1px dotted grey;
+                text-align: center;
+                padding: 15px 0 10px 0;
+            }
+
+            .description-pdf {
+                font-family: Michelin-Light;
+                font-size: 12px;
+                padding: 5px 0 0 5px;
+                border-bottom: 1px dotted grey;
+            }
+
+            .dop-info-pdf {
+                width: 100%;
+                font-family: Michelin;
+                font-size: 10px;
+                text-align: center;
+                padding: 10px 5px 5px 5px;
+                background-color: #000;
+                color: #fff;
+
+            }
+
+            .dop-info-pdf tr, .dop-info-pdf tr td {
+                border: 1px solid white;
+            }
+
+            .footer-logo {
+                font-family: Michelin;
+                font-size: 12px;
+                text-align: center;
+                padding: 5px 0 0 0;
+
+            }
+
+            .contact-td {
+                position: relative;
+                font-family: Michelin-Light;
+                font-size: 10px;
+                text-align: right;
+                padding: 0 25px 0 0;
+            }
+        </style>
+    </head>
+    <body >
+        <table class="table-wrapper">
+            <tr>
+                <td class="header-size-one">Розмір шин: </td>
+                <td class="header-size-two"> {{ storage_info.tire_info }} - {{ tire.index_load }}{{ tire.index_speed }}</td>
+            </tr>
+
+            <tr>
+                <td class="header-size-one">Бренд\Модель: </td>
+                <td class="header-size-two">{{ tire.model.brand }} - {{ tire.model }} </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <table >
+                        <tr>
+                            <td style="border:1px solid black;width:35%;">
+                                {% if storage_info.qr_code %}
+                                    <img class="img-pdf" src="{{ storage_info.qr_code.path }}">
+                                {% endif %}
+                            </td>
+                            <td>
+
+                                <table class="dop-info-pdf">
+                                    <tr>
+                                        <td></td>
+                                        {% if tire.shipy %}
+                                        <td>
+                                            Шипи
+                                        </td>
+                                        {% endif %}
+                                    
+                                        {% if tire.lipuchka %}
+                                        <td>
+                                            Лип.
+                                        </td>
+                                        {% endif %}
+                                    
+                                        {% if tire.run_flat %}
+                                        <td>
+                                            RunFlat
+                                        </td>
+                                        {% endif %}
+                                    
+                                        {% if tire.conti_seal %}
+                                        <td>
+                                            ContiSeal
+                                        </td>
+                                        {% endif %}
+                                    
+                                        {% if tire.low_prof %}
+                                        <td>
+                                            Низ.проф.
+                                        </td>
+                                        {% endif %}
+                                    
+                                        {% if tire.mad %}
+                                        <td>
+                                            Гряз.
+                                        </td>
+                                        {% endif %}
+                                    
+                                        {% if tire.rain %}
+                                        <td>
+                                            Дожд.
+                                        </td>
+                                        {% endif %}
+                                        {% if tire.choice %}
+                                        <td>
+                                            {{ tire.choice }}
+                                        </td>
+                                        {% endif %}
+                                    </tr>
+                                </table>
+
+                                <table class="description-pdf">
+                                    {% if tire.country %}
+                                    <tr>
+                                        <td>Країна виробник: </td><td>{{ tire.country }}</td>
+                                    </tr>
+                                    {% endif %}
+                                    {% if tire.year and tire.year > 2014 %}
+                                    <tr>
+                                        <td>Рік випуску: </td><td>{{ tire.year }}</td>
+                                    </tr>
+                                    {% elif user.is_superuser %}
+                                        <tr>
+                                            <td>Рік випуску: </td><td>{{ tire.year }}</td>
+                                        </tr>
+                                    {% endif %}
+                                    <tr>
+                                        <td>Стан (залишок): </td><td>{{ tire.condition }}%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Індекс наван-ня: </td><td>{{ tire.index_load }} - {{ tire.index_load.name_two }}кг</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Індекс швидкості: </td><td>{{ tire.index_speed }} - {{ tire.index_speed.name_two }}км</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    
+                    <table class="price-pdf">
+                        <tr>
+                            <td>Вартість: {{ tire.price|floatformat }} грн</td> <td>В наявності: {{ tire.in_stock }} шт</td>
+                        </tr>
+                        
+                    </table>
+                </td>
+            </tr>
+            <tr class="footer-row">
+                <td class="footer-logo">ШИННИЙ ЦЕНТР "CAR+"</td>
+                <td class="contact-td"><span class="contact-td-span">Погреби- Троєщина<br>вул. Єдності, 94</span></td>
+            </tr>
+        </table>
+    </body>
+</html>

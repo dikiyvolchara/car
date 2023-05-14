@@ -134,4 +134,4 @@ class Image(models.Model):
         verbose_name_plural = 'Фото шин'
 
     def image_url(self):
-        return mark_safe(f'<img src="{self.image.url}" width="auto" height="250px"')
+        return mark_safe(f'<img src="{self.image.url}" width="auto" height="250px">')
